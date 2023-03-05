@@ -9,6 +9,7 @@
 <form action="{% url 'register_student' %}" method="POST">
     {% csrf_token %}
     {{ user_form.as_p }}
+    {{ student_form.as_p }}
 
     <input type='submit' value='Register' />
 

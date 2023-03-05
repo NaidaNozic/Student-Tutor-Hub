@@ -12,8 +12,18 @@ class NewUserForm(UserCreationForm):
     email = forms.EmailField(label='Email:', widget=forms.EmailInput(attrs={"placeholder": "Your email..."}))
     password1 = forms.CharField(label='Password:', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Repeat password:', widget=forms.PasswordInput())
+
     class Meta():
         model = NewUser
         fields = ['first_name','last_name','username','email','password1','password2']
 
+class StudentProfileForm(forms.ModelForm):
+    phone = forms.CharField(label='Phone number:', widget=forms.NumberInput(
+        attrs={"placeholder": "Your phone (etc. 38762878785) :"}))
+    age = forms.IntegerField(label='Age:', widget=forms.NumberInput(
+        attrs={"placeholder": "Your age:", "max":999}))
+
+    class Meta():
+        model =  Student
+        fields = ['phone','age']
 
