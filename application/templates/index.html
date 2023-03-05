@@ -14,7 +14,7 @@
           <li class="nav__item"><a href="#">About</a></li>
           <li class="nav__item"><a href="#">Contact</a></li>
           {% if user.is_authenticated %}
-          <li class="nav__item"><a href="#">Log out</a></li>
+          <li class="nav__item"><a href="{% url 'logout' %}">Log out</a></li>
           {% else %}
           <li class="nav__item"><a href="{% url 'register_student' %}">Register</a></li>
           <li class="nav__item"><a href="{% url 'login' %}">Log in</a></li>
@@ -24,7 +24,6 @@
     </div>
 </header>
   <!-- Header End -->
-
   {% endblock %}
 
   {%block bannerContent%}

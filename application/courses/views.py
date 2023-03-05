@@ -23,6 +23,10 @@ def user_login(request):
    else:
       return render(request,'authenticate/login.html',{})
 
+def user_logout(request):
+   logout(request)
+   messages.success(request,"Your were logged out!")
+   return redirect("home")
 
 def register_student(request):
    if request.method=="POST":
@@ -39,7 +43,7 @@ def register_student(request):
          student.save()
          login(request, user)
          messages.success(request,"Registration successful!")
-         return redirect('../../../')
+         return redirect('home')
 
       else:
          print(user_form.errors,student_form.errors)

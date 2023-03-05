@@ -1,6 +1,15 @@
 {% extends 'courses/base.html' %}
 {% block registerUserContent %}
 
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
 <h1>Log in</h1>
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
