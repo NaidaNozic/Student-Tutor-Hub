@@ -1,9 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from courses.forms import NewUserForm, StudentProfileForm
 from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
+
+def user_login(request):
+   if request.method == "POST":
+      username = request.POST['usernameInput']
+      password = request.POST['passwordInput']
+      user = authenticate(request,username=username,password=password)
+
+      if user is not None:
+         login(request,user)
+         return redirect('../../')
+
+      else:
+         messages.error(request, "Invalid Details")
+         return redirect('login')
+   else:
+      return render(request,'authenticate/login.html',{})
+
 
 def register_student(request):
    if request.method=="POST":
@@ -15,11 +34,11 @@ def register_student(request):
          user = user_form.save()
          user.is_student = True
          user.save()
-         #login(request, user)
-			#messages.success(request,"Registration successful!")
          student = student_form.save(commit=False)
          student.user=user
          student.save()
+         login(request, user)
+         messages.success(request,"Registration successful!")
          return redirect('../../../')
 
       else:
