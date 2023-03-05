@@ -1,21 +1,9 @@
-.brand {
-    font-weight: bold;
-    font-size: 20px; 
-    color: aliceblue;
-    font-size: x-large;
-}
-  
 .site-header {
-    position: relative;
     background-color: #2c3c54; 
 }
 .nav__wrapper{
     list-style-type: none;
 } 
-.site-header__wrapper{
-    padding-top: 1rem;
-    padding-bottom: 1rem; 
-}
 @media (min-width: 600px) {
     .site-header__wrapper {
     display: flex;
@@ -51,25 +39,12 @@
     }
 }
   
-.nav__item a {
+.nav__item{
     display: block;
     padding: 1.5rem 1rem; 
     color: aliceblue;
     font-size: larger;
 }
 
-.nav__toggle {
-    display: none; 
-}
-
-@media (max-width: 599px) {
-      .nav__toggle {
-        display: block;
-        position: absolute;
-        right: 1rem;
-        top: 1rem; 
-    } 
-}
-  
 
 

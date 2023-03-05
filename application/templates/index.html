@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 
 {% block headerContent %}
-<!-- Header Start -->         
+<!-- Header Start -->      
 <header class="site-header">
-    <div class="wrapper site-header__wrapper">
-      <a href="#" class="brand">Brand</a>
-      <nav class="nav">
-        <button class="nav__toggle" aria-expanded="false" type="button">
-          menu
-        </button>
-        <ul class="nav__wrapper">
-          <li class="nav__item"><a href="#">Courses</a></li>
-          <li class="nav__item"><a href="#">About</a></li>
-          <li class="nav__item"><a href="#">Contact</a></li>
-          {% if user.is_authenticated %}
-          <li class="nav__item"><a href="{% url 'logout' %}">Log out</a></li>
-          {% else %}
-          <li class="nav__item"><a href="{% url 'register_student' %}">Register</a></li>
-          <li class="nav__item"><a href="{% url 'login' %}">Log in</a></li>
-          {% endif %}
-        </ul>
-      </nav>
-    </div>
+  <div class="wrapper site-header__wrapper">
+    <a href="#" style="text-decoration: none;" class="brand">Brand</a>
+    <nav class="nav">
+      <button class="nav__toggle" aria-expanded="false" type="button">
+        Meni
+      </button>
+      <ul class="nav__wrapper">
+        <li class="nav__item"><a style="text-decoration: none;" href="#">Courses</a></li>
+        <li class="nav__item"><a style="text-decoration: none;" href="#">About</a></li>
+        <li class="nav__item"><a style="text-decoration: none;" href="#">Contact</a></li>
+        {% if user.is_authenticated %}
+        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'logout' %}">Log out</a></li>
+        {% else %}
+        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'register_student' %}">Register</a></li>
+        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'login' %}">Log in</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
 </header>
+
   <!-- Header End -->
   {% endblock %}
 
