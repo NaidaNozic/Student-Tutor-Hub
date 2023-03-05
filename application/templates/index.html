@@ -2,33 +2,42 @@
 
 {% block headerContent %}
 <!-- Header Start -->      
-<header class="site-header">
-  <div class="wrapper site-header__wrapper">
-    <a href="#" style="text-decoration: none;" class="brand">Brand</a>
-    <nav class="nav">
-      <button class="nav__toggle" aria-expanded="false" type="button">
-        Meni
-      </button>
-      <ul class="nav__wrapper">
-        <li class="nav__item"><a style="text-decoration: none;" href="#">Courses</a></li>
-        <li class="nav__item"><a style="text-decoration: none;" href="#">About</a></li>
-        <li class="nav__item"><a style="text-decoration: none;" href="#">Contact</a></li>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="https://placeholder.pics/svg/150x50/888888/EEE/Logo" alt="..." height="36">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
         {% if user.is_authenticated %}
-        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'logout' %}">Log out</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
         {% else %}
-        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'register_student' %}">Register</a></li>
-        <li class="nav__item"><a style="text-decoration: none;" href="{% url 'login' %}">Log in</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'register_student' %}">Register</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log in</a></li>
         {% endif %}
       </ul>
-    </nav>
+    </div>
   </div>
-</header>
+</nav>
 
   <!-- Header End -->
   {% endblock %}
 
   {%block bannerContent%}
-  <div class="banner">
+  <div class="banner" style="background: #030405">
     {% load static %}
     <img id="home-wallpaper" src="{% static 'img/home-wallpaper.jpg' %}" alt="home">
     <div class="content">
