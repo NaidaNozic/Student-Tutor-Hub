@@ -6,13 +6,19 @@
 <p>There was an error with your form...</p>
 {% endif %}
 
+<div class="loginBox">
+    <h1>Register</h1>
+    <br>
 <form action="{% url 'register_student' %}" method="POST">
     {% csrf_token %}
+    <div class="mb-3">
     {{ user_form.as_p }}
     {{ student_form.as_p }}
+    </div>
 
-    <input type='submit' value='Register' />
+    <input type='submit' class="btn btn-primary buttonColor" value='Register' />
 
 </form>
+</div>
 
 {% endblock %}

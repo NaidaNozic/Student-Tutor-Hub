@@ -6,12 +6,13 @@ from courses.models import NewUser,Student
 
 ## Register User Form
 class NewUserForm(UserCreationForm):
-    first_name = forms.CharField(label='First name:', widget=forms.TextInput(attrs={"placeholder": "Your first name..."}))
-    last_name = forms.CharField(label='Last name:', widget=forms.TextInput(attrs={"placeholder": "Your last name..."}))
-    username = forms.CharField(label='Username:', widget=forms.TextInput(attrs={"placeholder": "Your username..."}))
-    email = forms.EmailField(label='Email:', widget=forms.EmailInput(attrs={"placeholder": "Your email..."}))
-    password1 = forms.CharField(label='Password:', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='Repeat password:', widget=forms.PasswordInput())
+    first_name = forms.CharField(label='First name:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(label='Last name:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    username = forms.CharField(label='Username:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(label='Email:', widget=forms.EmailInput(attrs={"placeholder": "etc. name@example.com",
+                                                                            "class":"form-control"}))
+    password1 = forms.CharField(label='Password:', widget=forms.PasswordInput(attrs={"class":"form-control"}))
+    password2 = forms.CharField(label='Repeat password:', widget=forms.PasswordInput(attrs={"class":"form-control"}))
 
     class Meta():
         model = NewUser
@@ -19,9 +20,9 @@ class NewUserForm(UserCreationForm):
 
 class StudentProfileForm(forms.ModelForm):
     phone = forms.CharField(label='Phone number:', widget=forms.NumberInput(
-        attrs={"placeholder": "Your phone (etc. 38762878785) :"}))
+        attrs={"placeholder": "etc. 38762878785","class":"form-control"}))
     age = forms.IntegerField(label='Age:', widget=forms.NumberInput(
-        attrs={"placeholder": "Your age:", "max":999}))
+        attrs={"max":999,"class":"form-control"}))
 
     class Meta():
         model =  Student

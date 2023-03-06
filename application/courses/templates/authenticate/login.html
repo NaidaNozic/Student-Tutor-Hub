@@ -11,6 +11,7 @@
 {% endif %}
 <div class="loginBox">
 <h1>Log in</h1>
+<br>
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
     <div class="mb-3">
