@@ -10,6 +10,7 @@ class NewUser(AbstractUser):
 class Course(models.Model):
     name = models.CharField(max_length=250)
     summary = models.CharField(max_length=500)
+    image = models.ImageField(upload_to="courses_images",default="courses_images/default.jpg",blank=True)
 
     def __str__(self):
         return self.name
