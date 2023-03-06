@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import NewUser,Student
+from .models import NewUser,Student,Tutor,Course,TutorCourse,StudentCourse
 
 # Register your models here.
 
@@ -23,3 +23,7 @@ UserAdmin.fieldsets=tuple(fields)
 
 admin.site.register(NewUser, UserAdmin)
 admin.site.register(Student)
+admin.site.register(Tutor)
+admin.site.register(Course)
+admin.site.register(TutorCourse)
+admin.site.register(StudentCourse)

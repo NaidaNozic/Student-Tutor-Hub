@@ -4,6 +4,7 @@ from courses.forms import NewUserForm, StudentProfileForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from .models import Course
 
 # Create your views here.
 
@@ -54,4 +55,5 @@ def register_student(request):
    return render(request,'authenticate/register_student.html',{'user_form':user_form,'student_form':student_form})
 
 def dashboard(request):
-    return render(request,"courses/dashboard.html")
+   courses = Course.objects.all()
+   return render(request,"courses/all_courses.html",{'all_courses':courses})
