@@ -15,7 +15,7 @@ def user_login(request):
 
       if user is not None:
          login(request,user)
-         return redirect('../../')
+         return redirect('dashboard')
 
       else:
          messages.error(request, "Invalid Details")
@@ -43,7 +43,7 @@ def register_student(request):
          student.save()
          login(request, user)
          messages.success(request,"Registration successful!")
-         return redirect('home')
+         return redirect('dashboard')
 
       else:
          print(user_form.errors,student_form.errors)
@@ -52,3 +52,6 @@ def register_student(request):
       student_form = StudentProfileForm()
 
    return render(request,'authenticate/register_student.html',{'user_form':user_form,'student_form':student_form})
+
+def dashboard(request):
+    return render(request,"courses/dashboard.html")
