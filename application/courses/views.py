@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Course
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -57,3 +58,7 @@ def register_student(request):
 def dashboard(request):
    courses = Course.objects.all()
    return render(request,"courses/all_courses.html",{'all_courses':courses})
+
+def view_course(request,course_id):
+   course = get_object_or_404(Course,pk=course_id)
+   return render(request,"courses/course.html",{'course':course})

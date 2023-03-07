@@ -1,0 +1,25 @@
+{% extends 'courses/dashboard.html' %}
+
+{% block content_courses %}
+
+<div class="courseWallpaper">
+
+  <div class="banner1">
+    {% load static %}
+    <img id="home-wallpaper" src="{% static 'img/home-wallpaper.jpg' %}" alt="home">
+    {% if course %}
+
+        <div class="card courseCard">
+            <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
+        <div class="card-body " style="text-align: center;">
+          <h3 class="card-title courseDetails">{{course.name}}</h3>
+          <p class="courseDetails" style="margin-top: 30px;">{{course.summary}}</p>
+        </div>
+        </div>
+
+    {% endif %}
+  </div>
+
+</div>
+
+{% endblock %}
