@@ -18,6 +18,7 @@
 }
 
 .courseWallpaper{
+  position: relative;
   margin: auto;
   width: 90%;
   margin-top: 40px;
