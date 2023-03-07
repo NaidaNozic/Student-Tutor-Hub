@@ -51,3 +51,20 @@ class TutorCourse(models.Model):
 
     class Meta:
         unique_together = ('course','tutor')
+
+class Notice(models.Model):
+    name = models.CharField(max_length=50)
+    text = models.CharField(max_length=500,null=True,blank=True)
+    created_at = models.DateTimeField(auto_now=True)
+    tutor = models.ForeignKey(Tutor,related_name='tutor_upload',on_delete=models.CASCADE)
+    course = models.ForeignKey(Course,related_name='course_notice',on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Notice: '+self.name
+
+class Material(models.Model):
+    notice = models.ForeignKey(Notice,related_name='material_notice',on_delete=models.CASCADE)
+    material = models.FileField(upload_to='materials')
+
+    def __str__(self):
+        return str(self.material)
