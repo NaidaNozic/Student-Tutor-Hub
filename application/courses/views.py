@@ -4,7 +4,7 @@ from courses.forms import NewUserForm, StudentProfileForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course
+from .models import Course,Notice
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
@@ -61,4 +61,5 @@ def dashboard(request):
 
 def view_course(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
-   return render(request,"courses/course.html",{'course':course})
+   notices = Notice.objects.filter(course=course)
+   return render(request,"courses/course.html",{'course':course,'notices':notices})
