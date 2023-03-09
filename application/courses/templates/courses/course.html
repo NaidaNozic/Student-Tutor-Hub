@@ -51,38 +51,50 @@
 </div>
 
 <!--List of Notices and Materials-->
-<div id="posts" class="container" style="display:none; width: 100%; height: fit-content; margin-top: 20px; margin-bottom: 20px;">
+<div id="posts" class="container" style="display:none; width: 100%; 
+height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   {% if notices %}
   {% for post in notices %}
 
-  <div class="container" style="background-color: bisque; margin-left: auto; margin-right: auto; width: 70%; height: 400px;">
+  <div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
+   border: 1px solid lightgray; margin-bottom: 10px; border-radius: 15px;
+   box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);">
  
-    <div class="row" style="margin-bottom: 5px; height: fit-content; background-color: pink;">
-      <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content; background-color: lightcoral;">
+    <div class="row" style="margin-bottom: 5px; height: fit-content;">
+      <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
         <h3 style="margin: 5px;">{{ post.name }}</h3>
       </div>
       <div class="cols-sm-2 col-md-2 col-lg-2">
       </div>
-      <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content; background-color: lightblue;float:right">
-        <p style="text-align: right;margin: 5px;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
+      <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content;">
+        <p style="text-align: right;margin: 5px; font-size: small;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
       </div>
     </div>
 
-    <div class="row">
-      <div style="background-color: lightslategray; height: fit-content;">
-        <p style="text-align: justify; margin: 5px;">{{ post.text }}</p>
+    <div class="row" style="margin-bottom: 5px;">
+      <div style="height: fit-content;">
+        <p style="text-align: justify; margin: 5px; padding: 0; word-wrap: break-word;">{{ post.text }}</p>
       </div>
     </div>
 
     {% load tag %}
     <div class="row">
-      <div style="background-color: aquamarine; height: fit-content;">
+
         {% getMaterials post as materials %}
         {% for material in materials %}
-        <p>{{ material.material.url }}</p>
+
+        <div style="height: fit-content; position: relative;">
+
+          <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
+          display: inline-block; margin: 10px;">
+          <i style="color: white;" class="fa-regular fa-file fa-2x"></i>
+          </div>
+          <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.material.url }}</a>
+        </div>
+
         {% endfor %}
-      </div>
+
     </div>
     
 

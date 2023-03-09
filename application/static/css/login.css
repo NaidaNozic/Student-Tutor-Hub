@@ -68,3 +68,10 @@
   object-fit: cover;
   background-attachment: fixed;
 }
+
+.verticalCenter{
+  width: fit-content; 
+  position: absolute; 
+  transform: translateY(-50%); 
+  top:50%;
+}
