@@ -74,7 +74,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
     <div class="row" style="margin-bottom: 5px;">
       <div style="height: fit-content;">
-        <p style="text-align: justify; margin: 5px; padding: 0; word-wrap: break-word;">{{ post.text }}</p>
+        <p style="margin: 5px; word-wrap: break-word; text-align: justify; padding: 0;">{{ post.text }}</p>
       </div>
     </div>
 
@@ -116,21 +116,20 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
  border: 1px solid lightgray; margin-bottom: 10px; border-radius: 15px;
  box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);">
 
-  <div class="row" style="margin-bottom: 5px; height: fit-content;">
-    <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
-      <h3 style="margin: 5px;">{{ question.student.user.username }}</h3>
-      <p>{{ question.created_at }}</p>
-    </div>
-    <div class="cols-sm-2 col-md-2 col-lg-2">
-    </div>
-    <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content;">
-      <p style="text-align: right;margin: 5px; font-size: small;">Prazno<br>nesto</p>
-    </div>
-  </div>
+  <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
-  <div class="row" style="margin-bottom: 5px;">
+    <div style="display: inline-block; width: fit-content; height: fit-content; margin: 10px 0 0 0;">
+      <i class="fa-solid fa-circle-user fa-2x"></i>
+    </div>
+    <div style=" height: fit-content; padding: 0;width:fit-content;display:inline-block">
+      <p style="margin: 5px; text-align: left;">{{ question.student.user.username }}<br>
+      <span style="font-size: small; text-align: left; color: gray;">{{ question.created_at }}</span></p>
+    </div>
+    <div style="text-align: justify; margin-top: 25px; margin-bottom: 5px;">
+      <h4>{{ question.title }}</h4>
+    </div>
     <div style="height: fit-content;">
-      <p style="text-align: justify; margin: 5px; padding: 0; word-wrap: break-word;">{{ question.text }}</p>
+      <p class="textJustify">{{ question.text }}</p>
     </div>
   </div>
   

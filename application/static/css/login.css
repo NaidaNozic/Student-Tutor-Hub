@@ -75,3 +75,8 @@
   transform: translateY(-50%); 
   top:50%;
 }
+
+.textJustify{
+  text-align: justify; padding: 0;
+  word-wrap: break-word;
+}
