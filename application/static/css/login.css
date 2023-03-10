@@ -76,7 +76,10 @@
   top:50%;
 }
 
-.textJustify{
-  text-align: justify; padding: 0;
-  word-wrap: break-word;
+.openPopup{
+  display: "";
+}
+
+.closePopup{
+  display: none;
 }

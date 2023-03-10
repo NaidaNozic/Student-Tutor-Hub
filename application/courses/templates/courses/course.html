@@ -58,8 +58,8 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
   {% for post in notices %}
 
   <div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
-   border: 1px solid lightgray; margin-bottom: 10px; border-radius: 15px;
-   box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);">
+   border: 1px solid lightgray; margin-bottom: 10px; border-radius: 5px;
+   box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2); background-color: white;">
  
     <div class="row" style="margin-bottom: 5px; height: fit-content;">
       <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
@@ -113,8 +113,8 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 {% for question in questions %}
 
 <div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
- border: 1px solid lightgray; margin-bottom: 10px; border-radius: 15px;
- box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);">
+ border: 1px solid lightgray; margin-bottom: 10px; border-radius: 5px;
+ box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);background-color: white;">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
@@ -129,10 +129,66 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <h4>{{ question.title }}</h4>
     </div>
     <div style="height: fit-content;">
-      <p class="textJustify">{{ question.text }}</p>
+      <p style="word-wrap: break-word; text-align: justify; padding: 0;">{{ question.text }}</p>
+    </div>
+    <div style="position: relative; width: 100%; height: 50px; margin-top: 10px;">
+      <button type="button" id="replyButton" data-bs-toggle="modal" data-bs-target="#exampleModalLong"
+              class="btn btn-primary btn-sm" 
+              style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 10px 15px;">
+      Reply</button>
+    </div>
+  
+  </div>
+<!--Answers-->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Answers</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--Content-->
+        {% load tag %}
+  <div id="divAnswers" class="closePopupS" >
+    <div class="row">
+
+        {% getAnswers question as answers %}
+        {% for answer in answers %}
+
+        <div class="d-flex flex-start" style="margin: 10px 0 10px 0;">
+          <i class="fa-solid fa-circle-user fa-3x" style="margin-right: 15px;"></i>
+          <div>
+            <h6 class="fw-bold mb-1">{{ answer.user.username }}</h6>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0">
+                {{ answer.created_at }}
+              </p>
+            </div>
+            <p class="mb-0" style="max-width: 500px;word-wrap: break-word;">
+              {{ answer.text }}
+            </p>
+          </div>
+        </div>
+
+      <hr class="my-0" />
+
+        {% endfor %}
+
     </div>
   </div>
-  
+        <!--Content End-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--End of Answers-->
 </div>
 
 {% endfor %}
