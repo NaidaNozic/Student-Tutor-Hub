@@ -68,3 +68,22 @@ class Material(models.Model):
 
     def __str__(self):
         return str(self.material)
+
+class Question(models.Model):
+    title = models.CharField(max_length=50)
+    text = models.CharField(max_length=550)
+    created_at = models.DateTimeField(auto_now=True)
+    course = models.ForeignKey(Course,related_name='course_question',on_delete=models.CASCADE)
+    student = models.ForeignKey(Student,related_name='student_question',on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+class Answer(models.Model):
+    user = models.ForeignKey(NewUser,related_name='user_answer',on_delete=models.CASCADE)
+    question = models.ForeignKey(Question,related_name='answer_question',on_delete=models.CASCADE)
+    text = models.CharField(max_length=550)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Reply from '+self.user.username

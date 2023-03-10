@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="card" style="background-color: gray; border: 2px solid white; display: inline-block; margin: 10px;">
+        <div id="buttonQuestions" class="card" style="background-color: gray; border: 2px solid white; display: inline-block; margin: 10px;">
           <div class="card-body text-center" style="padding-top: 8px; padding-bottom: 8px;">
             <p class="card-text">Questions</p>
           </div>
@@ -51,7 +51,7 @@
 </div>
 
 <!--List of Notices and Materials-->
-<div id="posts" class="container" style="display:none; width: 100%; 
+<div id="posts" class="container" style="width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   {% if notices %}
@@ -104,5 +104,42 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
   {% endif %}
 </div>
 <!--End of List-->
+
+<!--List of Questions-->
+<div id="questions" class="container" style="display:none; width: 100%; 
+height: fit-content; margin-top: 20px; margin-bottom: 20px;">
+
+{% if questions %}
+{% for question in questions %}
+
+<div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
+ border: 1px solid lightgray; margin-bottom: 10px; border-radius: 15px;
+ box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);">
+
+  <div class="row" style="margin-bottom: 5px; height: fit-content;">
+    <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
+      <h3 style="margin: 5px;">{{ question.student.user.username }}</h3>
+      <p>{{ question.created_at }}</p>
+    </div>
+    <div class="cols-sm-2 col-md-2 col-lg-2">
+    </div>
+    <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content;">
+      <p style="text-align: right;margin: 5px; font-size: small;">Prazno<br>nesto</p>
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom: 5px;">
+    <div style="height: fit-content;">
+      <p style="text-align: justify; margin: 5px; padding: 0; word-wrap: break-word;">{{ question.text }}</p>
+    </div>
+  </div>
+  
+</div>
+
+{% endfor %}
+{% endif %}
+
+</div>
+<!--End of Questions-->
 
 {% endblock %}
