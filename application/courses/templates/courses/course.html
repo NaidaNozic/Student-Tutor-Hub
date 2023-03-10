@@ -57,9 +57,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
   {% if notices %}
   {% for post in notices %}
 
-  <div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
-   border: 1px solid lightgray; margin-bottom: 10px; border-radius: 5px;
-   box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2); background-color: white;">
+  <div class="container containerWithBorder">
  
     <div class="row" style="margin-bottom: 5px; height: fit-content;">
       <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
@@ -105,6 +103,24 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 </div>
 <!--End of List-->
 
+<!--Add Question-->
+<div id="addQuestions" class="card-footer py-3 border-0 " 
+style="background-color: #f8f9fa; width: 70%; display: none; margin-right: auto; margin-left: auto; height: 200px;">
+  <div class="d-flex flex-start w-100">
+    <i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>
+    <div class="form-outline w-100" style="margin-left: 5px;">
+      <label class="form-label" for="textAreaExample">Leave a question</label>
+      <textarea class="form-control" id="textAreaExample" rows="4" placeholder="What is your question?"
+        style="background: #fff;"></textarea>
+    </div>
+  </div>
+  <div class="float-end mt-2 pt-1">
+    <button type="button" class="btn btn-primary btn-sm">Post comment</button>
+    <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
+  </div>
+</div>
+<!--End Add Question-->
+
 <!--List of Questions-->
 <div id="questions" class="container" style="display:none; width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
@@ -112,9 +128,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 {% if questions %}
 {% for question in questions %}
 
-<div class="container" style="margin-left: auto; margin-right: auto; width: 70%;
- border: 1px solid lightgray; margin-bottom: 10px; border-radius: 5px;
- box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);background-color: white;">
+<div class="container containerWithBorder">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
@@ -129,7 +143,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <h4>{{ question.title }}</h4>
     </div>
     <div style="height: fit-content;">
-      <p style="word-wrap: break-word; text-align: justify; padding: 0;">{{ question.text }}</p>
+      <p class="breakText">{{ question.text }}</p>
     </div>
     <div style="position: relative; width: 100%; height: 50px; margin-top: 10px;">
       <button type="button" id="replyButton" data-bs-toggle="modal" data-bs-target="#exampleModalLong"
@@ -161,9 +175,9 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
         <div class="d-flex flex-start" style="margin: 10px 0 10px 0;">
           <i class="fa-solid fa-circle-user fa-3x" style="margin-right: 15px;"></i>
           <div>
-            <h6 class="fw-bold mb-1">{{ answer.user.username }}</h6>
+            <h6 class="fw-bold mb-1" style="color: #2596be;">{{ answer.user.username }}</h6>
             <div class="d-flex align-items-center mb-3">
-              <p class="mb-0">
+              <p class="mb-0" style="font-size: small;">
                 {{ answer.created_at }}
               </p>
             </div>

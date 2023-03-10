@@ -76,6 +76,18 @@
   top:50%;
 }
 
+.breakText{
+  word-wrap: break-word;
+  text-align: justify; 
+  padding: 0;
+}
+
+.containerWithBorder{
+  margin-left: auto; margin-right: auto; width: 70%;
+ border: 1px solid lightgray; margin-bottom: 10px; border-radius: 5px;
+ box-shadow: 4px 5px 10px 2px rgba(0,0,0,.2);background-color: white;
+}
+
 .openPopup{
   display: "";
 }
