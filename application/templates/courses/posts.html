@@ -1,0 +1,52 @@
+<!--List of Notices and Materials-->
+<div id="posts" class="container" style="width: 100%; 
+height: fit-content; margin-top: 20px; margin-bottom: 20px;">
+
+  {% if notices %}
+  {% for post in notices %}
+
+  <div class="container containerWithBorder">
+ 
+    <div class="row" style="margin-bottom: 5px; height: fit-content;">
+      <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
+        <h3 style="margin: 5px;">{{ post.name }}</h3>
+      </div>
+      <div class="cols-sm-2 col-md-2 col-lg-2">
+      </div>
+      <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content;">
+        <p style="text-align: right;margin: 5px; font-size: small;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
+      </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 5px;">
+      <div style="height: fit-content;">
+        <p style="margin: 5px; word-wrap: break-word; text-align: justify; padding: 0;">{{ post.text }}</p>
+      </div>
+    </div>
+
+    {% load tag %}
+    <div class="row">
+
+        {% getMaterials post as materials %}
+        {% for material in materials %}
+
+        <div style="height: fit-content; position: relative;">
+
+          <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
+          display: inline-block; margin: 10px;">
+          <i style="color: white;" class="fa-regular fa-file fa-2x"></i>
+          </div>
+          <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.material.url }}</a>
+        </div>
+
+        {% endfor %}
+
+    </div>
+    
+
+  </div>
+
+  {% endfor %}
+  {% endif %}
+</div>
+<!--End of List-->
