@@ -1,17 +1,27 @@
 <!--Add Question-->
-<div id="addQuestions" class="card-footer py-3 border-0 " 
-style="background-color: #f8f9fa; width: 70%; display: none; margin-right: auto; margin-left: auto; height: 200px;">
+<div id="addQuestions" class="card-footer" 
+     style="background-color: #f8f9fa; width: 50%; display: none; margin-right: auto; margin-left: auto;
+            border: 1px solid lightgray; border-radius: 10px; padding: 5px 5px 5px 0;">
   <div class="d-flex flex-start w-100">
-    <i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>
-    <div class="form-outline w-100" style="margin-left: 5px;">
-      <label class="form-label" for="textAreaExample">Leave a question</label>
-      <textarea class="form-control" id="textAreaExample" rows="4" placeholder="What is your question?"
-        style="background: #fff;"></textarea>
+    <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
+    <div class="form-outline w-100" style="margin-left: 5px; position: relative;">
+      <i class="fa-regular fa-comment-dots fa-2x" style="margin: 8px;"></i>
+      <h4 style="display: inline-block; position: absolute; top: 8px; margin-left: 5px;">Leave a question</h4>
+      <br>
+
+      <form action="{% url 'course' course_id=course.pk %}" method="POST" style="margin-top: 5px;">
+        {% csrf_token %}
+       <p> <label>{{ question_form.title.label_tag }}</label>{{ question_form.title }}</p>
+       <div class="form-group">
+       <p> <label >{{ question_form.text.label_tag }}</label> <br>  {{ question_form.text }}</p>
+       </div>
+
+       <div class="float-end mt-2 pt-1">
+        <button type="submit" class="btn btn-primary btn-sm">Post a question</button>
+      </div>
+      </form>
+
     </div>
-  </div>
-  <div class="float-end mt-2 pt-1">
-    <button type="button" class="btn btn-primary btn-sm">Post comment</button>
-    <button type="button" class="btn btn-outline-primary btn-sm">Cancel</button>
   </div>
 </div>
 <!--End Add Question-->

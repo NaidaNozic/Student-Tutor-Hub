@@ -71,7 +71,7 @@ class Material(models.Model):
 
 class Question(models.Model):
     title = models.CharField(max_length=50)
-    text = models.CharField(max_length=550)
+    text = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course,related_name='course_question',on_delete=models.CASCADE)
     student = models.ForeignKey(Student,related_name='student_question',on_delete=models.CASCADE)

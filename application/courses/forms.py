@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from courses.models import NewUser,Student
+from courses.models import NewUser,Student,Question
 
 # Create your forms here.
 
@@ -28,3 +28,13 @@ class StudentProfileForm(forms.ModelForm):
         model =  Student
         fields = ['phone','age']
 
+class QuestionForm(forms.ModelForm):
+    title = forms.CharField(label='Title:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    text = forms.CharField(label='Question:', 
+                           widget=forms.Textarea(attrs={"rows":2,"cols":60,
+                                                        "placeholder":"What is your question?",
+                                                        "class":"form-control"}))
+
+    class Meta():
+        model =  Question
+        fields = ['title','text']

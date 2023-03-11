@@ -17,10 +17,3 @@ if(el1){
         document.getElementById('questions').style.display = ""
     });
 }
-/*
-var reply = document.getElementById('replyButton')
-if(reply){
-    reply.addEventListener("click",() => {
-        document.getElementById('divAnswers').style.display=""
-    })
-}*/
