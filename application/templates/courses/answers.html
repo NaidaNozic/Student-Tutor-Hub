@@ -1,0 +1,20 @@
+
+<!--For loop answers-->
+{% for answer in answers %}
+<div class="d-flex flex-start" style="margin: 10px 0 10px 0;">
+  <i class="fa-solid fa-circle-user fa-3x" style="margin-right: 15px;"></i>
+  <div>
+    <h6 class="fw-bold mb-1" style="color: #2596be;">{{ answer.user.username }}</h6>
+    <div class="d-flex align-items-center mb-3">
+      <p class="mb-0" style="font-size: small;">
+        {{ answer.created_at }}
+      </p>
+    </div>
+    <p class="mb-0" style="max-width: 500px;word-wrap: break-word;">
+      {{ answer.text }}
+    </p>
+  </div>
+</div>
+<hr class="my-0" />
+{% endfor %}
+<!--End Foor Loop Answers-->

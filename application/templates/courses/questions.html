@@ -17,7 +17,7 @@
        </div>
 
        <div class="float-end mt-2 pt-1">
-        <button type="submit" class="btn btn-primary btn-sm">Post a question</button>
+        <button type="submit" class="btn btn-primary btn-sm" name="question_button">Post a question</button>
       </div>
       </form>
 
@@ -51,63 +51,58 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <p class="breakText">{{ question.text }}</p>
     </div>
     <div style="position: relative; width: 100%; height: 50px; margin-top: 10px;">
-      <button type="button" id="replyButton" data-bs-toggle="modal" data-bs-target="#exampleModalLong"
+      <button type="button" id="replyButton{{question.pk}}" data-bs-toggle="modal" data-bs-target="#exampleModalLong{{question.pk}}"
               class="btn btn-primary btn-sm" 
               style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 10px 15px;">
       Reply</button>
     </div>
   
   </div>
-<!--Answers-->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Answers</h5>
-        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!--Content-->
-        {% load tag %}
-  <div id="divAnswers" class="closePopupS" >
-    <div class="row">
-
-        {% getAnswers question as answers %}
-        {% for answer in answers %}
-
-        <div class="d-flex flex-start" style="margin: 10px 0 10px 0;">
-          <i class="fa-solid fa-circle-user fa-3x" style="margin-right: 15px;"></i>
-          <div>
-            <h6 class="fw-bold mb-1" style="color: #2596be;">{{ answer.user.username }}</h6>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0" style="font-size: small;">
-                {{ answer.created_at }}
-              </p>
-            </div>
-            <p class="mb-0" style="max-width: 500px;word-wrap: break-word;">
-              {{ answer.text }}
-            </p>
-          </div>
+  <!--Answers-->
+  {% load tag %}
+  {% getAnswers question as answers %}
+  <div class="modal fade" id="exampleModalLong{{question.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Answers</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          <!--Content-->
+    <div id="divAnswers" class="closePopupS" >
+      <div class="row">
 
-      <hr class="my-0" />
+        <!--Answer Form-->
+        <form action="{% url 'course' course_id=course.pk question_id=question.pk %}" method="POST" style="margin-top: 5px;">
+          {% csrf_token %}
+          <div class="form-group">
+          <p> <label >{{ answer_form.text.label_tag }}</label> <br>  {{ answer_form.text }}</p>
+          </div>
 
-        {% endfor %}
+          <div class="float-end mt-2 pt-1">
+            <button type="submit" class="btn btn-primary btn-sm" name="reply_button">Post the answer</button>
+          </div>
+        </form>
+        <!--End Answer Form-->
 
+          <div>
+            {% include 'courses/answers.html' with answers=answers %}
+          </div>
+
+      </div>
+    </div>
+          <!--Content End-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
-        <!--Content End-->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!--End of Answers-->
+  <!--End of Answers-->
 </div>
 
 {% endfor %}

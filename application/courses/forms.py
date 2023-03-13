@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from courses.models import NewUser,Student,Question
+from courses.models import NewUser,Student,Question,Answer
 
 # Create your forms here.
 
@@ -38,3 +38,10 @@ class QuestionForm(forms.ModelForm):
     class Meta():
         model =  Question
         fields = ['title','text']
+
+class AnswerForm(forms.ModelForm):
+    text = forms.CharField(label='Text:', widget=forms.TextInput(attrs={'class':'form-control'}))
+
+    class Meta():
+        model = Answer
+        fields = ['text']
