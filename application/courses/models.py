@@ -87,3 +87,29 @@ class Answer(models.Model):
 
     def __str__(self):
         return 'Reply from '+self.user.username
+
+class Assignment(models.Model):
+    name = models.CharField(max_length=250)
+    created_at = models.DateTimeField(auto_now=True)
+    course = models.ForeignKey(Course,related_name='course_assignment',on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor,related_name='tutor_assignment',on_delete=models.CASCADE)
+    file_assignment = models.FileField(upload_to='assignments')
+    #student = models.ManyToManyField(Student,related_name='student_assignment',blank=True)
+
+    def __str__(self):
+        return 'Assignment: '+self.name
+
+    class Meta:
+        ordering = ['-created_at']
+
+class Submission(models.Model):
+    student = models.ForeignKey(Student,related_name='student_submission',on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment,related_name='assignment_submission',on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+    file_submission = models.FileField(upload_to='submissions')
+
+    def __str__(self):
+        return 'Submitted '+self.assignment.name+' by '+self.student.user.username
+
+    class Meta:
+        ordering = ['-created_at']

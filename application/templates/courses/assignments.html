@@ -1,0 +1,48 @@
+<!--Assignments-->
+<div id="assignmentsDiv" class="positionCenter" style="display: none">
+{% if course %}
+
+{% load tag %}
+{% getAssignments course as assignments%}
+  {% if assignments|length == 0 %}
+          <h2 style="text-align: center;">There are no assignments!</h2>
+  {% else %}
+  <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Assignment Name</th>
+          <th scope="col">Uploaded By</th>
+          <th scope="col">Uploaded Date</th>
+          <th scope="col">Assignment</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      
+            {% for assignment in assignments %}
+            <tr>
+                <td scope="row">{{ forloop.counter }}</td>
+                <td>{{assignment.name}}</td>
+                <td>{{assignment.tutor.user.username}}</td>
+                <td>{{assignment.created_at}}</td>
+                <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
+
+              {% getSubmittedAssignments user as submissions%}
+              {% if assignment in submissions %}
+                <td>Submitted</td>
+              {% else %}
+                <td><a href="#" class="btn btn-primary">Submit</a></td></td>
+              {% endif %}
+
+              </tr>
+            {% endfor%}
+
+      </tbody>
+
+  </table>
+  {% endif %}
+  {% endif %}
+</div>
+<!--End Assignments-->

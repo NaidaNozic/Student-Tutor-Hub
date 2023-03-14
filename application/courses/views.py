@@ -4,7 +4,7 @@ from courses.forms import NewUserForm, StudentProfileForm, QuestionForm, AnswerF
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student
+from .models import Course,Notice,Question,Student,Assignment
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -73,7 +73,6 @@ def view_course(request,course_id,question_id=None):
          answer_form = AnswerForm()
 
          if question_form.is_valid():
-            print("questionnn")
             question = question_form.save(commit=False)
             question.course = course
             question.student = get_object_or_404(Student,pk=request.user.id)
