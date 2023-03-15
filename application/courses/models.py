@@ -94,7 +94,6 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course,related_name='course_assignment',on_delete=models.CASCADE)
     tutor = models.ForeignKey(Tutor,related_name='tutor_assignment',on_delete=models.CASCADE)
     file_assignment = models.FileField(upload_to='assignments')
-    #student = models.ManyToManyField(Student,related_name='student_assignment',blank=True)
 
     def __str__(self):
         return 'Assignment: '+self.name

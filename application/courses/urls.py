@@ -8,5 +8,6 @@ urlpatterns = [
     path('dashboard',views.dashboard,name='dashboard'),
     path('course/<int:course_id>',views.view_course,name='course'),
     path('course/<int:course_id>/<int:question_id>',views.view_course,name='course'),
-    #path('course/<int:course_id>/assignments',views.view_course,name='assignments'),
+    path('course/<int:course_id>/assignments',views.view_assignments,name='assignments'),
+    path('course/<int:course_id>/assignments/<int:assignment_id>',views.submit_assignment,name='submit_assignment'),
 ]

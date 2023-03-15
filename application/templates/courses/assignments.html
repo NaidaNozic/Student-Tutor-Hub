@@ -1,5 +1,6 @@
 <!--Assignments-->
 <div id="assignmentsDiv" class="positionCenter" style="display: none">
+
 {% if course %}
 
 {% load tag %}
@@ -13,7 +14,7 @@
           <th scope="col">#</th>
           <th scope="col">Assignment Name</th>
           <th scope="col">Uploaded By</th>
-          <th scope="col">Uploaded Date</th>
+          <th scope="col">Upload Date</th>
           <th scope="col">Assignment</th>
           <th scope="col">Status</th>
         </tr>
@@ -33,10 +34,11 @@
               {% if assignment in submissions %}
                 <td>Submitted</td>
               {% else %}
-                <td><a href="#" class="btn btn-primary">Submit</a></td></td>
+                <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
               {% endif %}
 
-              </tr>
+            </tr>
+
             {% endfor%}
 
       </tbody>

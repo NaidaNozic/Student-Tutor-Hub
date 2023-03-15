@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from courses.models import NewUser,Student,Question,Answer
+from courses.models import NewUser,Student,Question,Answer,Submission
+from django.db import transaction
 
 # Create your forms here.
 
@@ -45,3 +46,9 @@ class AnswerForm(forms.ModelForm):
     class Meta():
         model = Answer
         fields = ['text']
+
+class SubmitForm(forms.ModelForm):
+    file_submission = forms.FileField()
+    class Meta():
+        model = Submission
+        fields = ['file_submission']

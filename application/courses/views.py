@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from courses.forms import NewUserForm, StudentProfileForm, QuestionForm, AnswerForm
+from courses.forms import NewUserForm, StudentProfileForm, QuestionForm, AnswerForm, SubmitForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student,Assignment
+from .models import Course,Notice,Question,Student,Assignment,Submission
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -59,6 +59,31 @@ def register_student(request):
 def dashboard(request):
    courses = Course.objects.all()
    return render(request,"courses/all_courses.html",{'all_courses':courses})
+
+def view_assignments(request,course_id):
+   course = get_object_or_404(Course,pk=course_id)
+   assignments = Assignment.objects.filter(course=course)
+
+   return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
+
+def submit_assignment(request,course_id,assignment_id):
+   student = request.user.Student
+   course = get_object_or_404(Course,pk=course_id)
+   assignments = Assignment.objects.filter(course=course)
+   assignment = get_object_or_404(Assignment,pk=assignment_id)
+
+   if request.method == 'POST':
+      submit_form = SubmitForm(request.POST, request.FILES)
+      if submit_form.is_valid():
+         file = request.FILES['file_submission'] #get the uploaded file
+         submission = Submission.objects.create(student=student,assignment=assignment,file_submission=file)
+         submission.save()
+         return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
+
+   else:
+      submit_form = SubmitForm()
+   return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
+                                                           'assignment':assignment,'submit_form':submit_form})
 
 def view_course(request,course_id,question_id=None):
    course = get_object_or_404(Course,pk=course_id)

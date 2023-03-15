@@ -1,0 +1,76 @@
+{% extends 'courses/dashboard.html' %}
+
+{% block content_courses %}
+
+{% if course %}
+
+<div class="card" style="top: 50px; width: 100%;border: none; background-color: transparent; margin-bottom:5%;">
+    <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
+        <div class="card-body ">
+        <h1 class="card-title" style="text-align: center;">
+        {{course.name}}</h1>
+        </div>
+</div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-6">
+        <table class="table table-sm table-bordered" style="font-size:15px;">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Assignment Name</th>
+                <th scope="col">Uploaded By</th>
+                <th scope="col">Upload Date</th>
+                <th scope="col">Assignment</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+      
+            <tbody>
+            
+                  {% for assignment in assignments %}
+                  <tr>
+                      <td scope="row">{{ forloop.counter }}</td>
+                      <td>{{assignment.name}}</td>
+                      <td>{{assignment.tutor.user.username}}</td>
+                      <td>{{assignment.created_at}}</td>
+                      <td><a href="{{ assignment.file_assignment.url }}" style="text-decoration: none; color: darkblue;"
+                             target="_blank">Download</a></td>
+
+                    {% load tag %}
+                    {% getSubmittedAssignments user as submissions%}
+                    {% if assignment in submissions %}
+                      <td>Submitted</td>
+                    {% else %}
+                      <td><a href="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}"
+                        style="text-decoration: none; color: darkblue;">Submit</a></td>
+                    {% endif %}
+      
+                  </tr>
+                  {% endfor%}
+      
+            </tbody>
+  
+        </table>
+    </div>
+
+    <div class="col-sm-12 col-md-4 col-lg-6">
+      {% block submissionBlock %}
+      <div class="card" style="border-radius: 0; padding: 10px;">
+        <p style="font-size: large;">Choose an assignment to view details.</p>
+      </div>
+      {% endblock %}
+    </div>
+  </div>
+
+{% endif %}
+
+
+{% endblock %}
+
+
+
+<!--Submit Assignment-->
+  
+
+<!--End Submit Assignment-->
