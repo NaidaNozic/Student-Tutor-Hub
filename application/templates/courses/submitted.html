@@ -1,0 +1,28 @@
+{% extends 'courses/assignments_details.html' %}
+
+{% block submissionBlock %}
+{% if course %}
+{% if assignment %}
+{% if submission %}
+<div class="card" style="padding: 10px; border-radius: 0;">
+    <h5>Submitted document for: <span style="text-decoration: underline;">{{assignment.name}}</span></h5>
+    <br>
+    <div style="height: fit-content; position: relative;">
+
+        <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
+        display: inline-block; margin: 10px;">
+        <i style="color: white;" class="fa-regular fa-file fa-2x"></i>
+        </div>
+        <a href="{{ submission.file_submission.url }}" class="verticalCenter" style="font-size:small">{{ submission.file_submission.url }}</a>
+
+        <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="POST">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-sm" name="delete_button" 
+                    type="submit" value="Delete">Delete</button>
+        </form>
+      </div>
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endblock %}

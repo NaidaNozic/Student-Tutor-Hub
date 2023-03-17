@@ -67,19 +67,33 @@ def view_assignments(request,course_id):
    return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
 
 def submit_assignment(request,course_id,assignment_id):
+   #za taj assignment se ovdje radi upload i brisanje submission-a
    student = request.user.Student
    course = get_object_or_404(Course,pk=course_id)
    assignments = Assignment.objects.filter(course=course)
    assignment = get_object_or_404(Assignment,pk=assignment_id)
+   submit_form = SubmitForm()
 
-   if request.method == 'POST':
-      submit_form = SubmitForm(request.POST, request.FILES)
-      if submit_form.is_valid():
-         file = request.FILES['file_submission'] #get the uploaded file
-         submission = Submission.objects.create(student=student,assignment=assignment,file_submission=file)
-         submission.save()
-         return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
+   if request.method == 'GET':
+      if 'submitted_button' in request.GET:
+         submission = Submission.objects.filter(student=student).filter(assignment=assignment)[:1].get()
+         return render(request,'courses/submitted.html',{'course':course,'assignments':assignments,
+                                                         'assignment':assignment,'submission':submission})
 
+   elif request.method == 'POST':
+      if 'submit_button' in request.POST:
+         submit_form = SubmitForm(request.POST, request.FILES)
+         if submit_form.is_valid():
+            file = request.FILES['file_submission'] #get the uploaded file
+            submission = Submission.objects.create(student=student,assignment=assignment,file_submission=file)
+            submission.save()
+            return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
+      elif 'delete_button' in request.POST:
+         submission = Submission.objects.filter(student=student).filter(assignment=assignment)[:1].get()
+         submission.delete()
+         submit_form = SubmitForm()
+         return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
+                                                           'assignment':assignment,'submit_form':submit_form})
    else:
       submit_form = SubmitForm()
    return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,

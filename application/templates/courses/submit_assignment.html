@@ -10,7 +10,7 @@
         {% csrf_token %}
         <p style="font-size: large;"> <label >{{ submit_form.file_submission.label_tag }}</label> <br></p>
         <p>  {{ submit_form.file_submission }}</p>
-        <input type="submit" class="btn btn-primary" value="Submit">
+        <button type="submit" class="btn btn-primary" name="submit_button">Submit</button>
     </form>
 </div>
 {% endif %}

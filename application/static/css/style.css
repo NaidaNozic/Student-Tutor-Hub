@@ -28,6 +28,17 @@
   font-weight: 1000;
   font-size: 26px;
 }
+
+a.hoverText:hover{
+  text-decoration: underline !important;
+  color: blue !important;
+}
+
+a.hoverTextRed:hover{
+  text-decoration: underline !important;
+  color: red !important;
+}
+
 *,
 *:before,
 *:after {

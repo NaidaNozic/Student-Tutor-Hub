@@ -5,11 +5,18 @@
 {% if course %}
 
 <div class="card" style="top: 50px; width: 100%;border: none; background-color: transparent; margin-bottom:5%;">
-    <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
-        <div class="card-body ">
+    <div style="width: 150px; margin-left: auto; margin-right: auto;">
+      <a href="{% url 'course' course_id=course.pk %}">
+        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
+      </a>
+    </div>
+    <div class="card-body ">
+      <a class="hoverText" href="{% url 'course' course_id=course.pk %}" style="text-decoration: none; color: black;">
         <h1 class="card-title" style="text-align: center;">
-        {{course.name}}</h1>
-        </div>
+        {{course.name}}
+        </h1>
+      </a>
+    </div>
 </div>
 
   <div class="row">
@@ -34,15 +41,23 @@
                       <td>{{assignment.name}}</td>
                       <td>{{assignment.tutor.user.username}}</td>
                       <td>{{assignment.created_at}}</td>
-                      <td><a href="{{ assignment.file_assignment.url }}" style="text-decoration: none; color: darkblue;"
+                      <td><a class="hoverTextRed" href="{{ assignment.file_assignment.url }}" style="text-decoration: none; color: darkblue;"
                              target="_blank">Download</a></td>
 
                     {% load tag %}
                     {% getSubmittedAssignments user as submissions%}
                     {% if assignment in submissions %}
-                      <td>Submitted</td>
+                      <td>
+                        <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
+                          <button style="all: unset; cursor: pointer;" name="submitted_button" 
+                                  type="submit" value="Submitted">
+                                <a class="hoverText" style="text-decoration: none; color: black;">Submitted
+                                </a>
+                          </button>
+                        </form>
+                      </td>
                     {% else %}
-                      <td><a href="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}"
+                      <td><a class="hoverTextRed" href="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}"
                         style="text-decoration: none; color: darkblue;">Submit</a></td>
                     {% endif %}
       

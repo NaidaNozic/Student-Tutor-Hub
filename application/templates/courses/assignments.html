@@ -32,7 +32,15 @@
 
               {% getSubmittedAssignments user as submissions%}
               {% if assignment in submissions %}
-                <td>Submitted</td>
+              <td>
+                <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
+                  <button style="all: unset; cursor: pointer;" name="submitted_button" 
+                          type="submit" value="Submitted">
+                        <a class="hoverText" style="text-decoration: none; color: black;">Submitted
+                        </a>
+                  </button>
+                </form>
+              </td>
               {% else %}
                 <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
               {% endif %}

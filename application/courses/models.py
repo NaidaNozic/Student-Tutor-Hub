@@ -110,5 +110,9 @@ class Submission(models.Model):
     def __str__(self):
         return 'Submitted '+self.assignment.name+' by '+self.student.user.username
 
+    def delete(self, *args, **kwargs):
+        self.file_submission.delete()
+        super().delete(*args, **kwargs)
+
     class Meta:
         ordering = ['-created_at']
