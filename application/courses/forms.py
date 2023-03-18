@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from courses.models import NewUser,Student,Question,Answer,Submission
+from courses.models import NewUser,Student,Question,Answer,Submission,Notice,Material
 from django.db import transaction
 
 # Create your forms here.
@@ -29,6 +29,12 @@ class StudentProfileForm(forms.ModelForm):
         model =  Student
         fields = ['phone','age']
 
+class MaterialForm(forms.ModelForm):
+    material = forms.FileField(required=False)
+    class Meta():
+        model = Material
+        fields = ['material']
+
 class QuestionForm(forms.ModelForm):
     title = forms.CharField(label='Title:', widget=forms.TextInput(attrs={'class':'form-control'}))
     text = forms.CharField(label='Question:', 
@@ -46,6 +52,13 @@ class AnswerForm(forms.ModelForm):
     class Meta():
         model = Answer
         fields = ['text']
+
+class PostForm(forms.ModelForm):
+    name = forms.CharField(label='Title:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    text = forms.CharField(label='Text:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    class Meta():
+        model = Notice
+        fields = ['name','text']
 
 class SubmitForm(forms.ModelForm):
     file_submission = forms.FileField()

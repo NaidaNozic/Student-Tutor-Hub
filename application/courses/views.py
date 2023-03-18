@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from courses.forms import NewUserForm, StudentProfileForm, QuestionForm, AnswerForm, SubmitForm
+from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student,Assignment,Submission
+from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -57,7 +57,13 @@ def register_student(request):
    return render(request,'authenticate/register_student.html',{'user_form':user_form,'student_form':student_form})
 
 def dashboard(request):
-   courses = Course.objects.all()
+   newUser=request.user
+   if newUser.is_tutor:
+      tutor_courses=TutorCourse.objects.filter(tutor=newUser.Tutor)
+      courses=[x.course for x in tutor_courses]
+      return render(request,"courses/all_courses.html",{'all_courses':courses})
+   else:
+      courses = Course.objects.all()
    return render(request,"courses/all_courses.html",{'all_courses':courses})
 
 def view_assignments(request,course_id):
@@ -98,6 +104,42 @@ def submit_assignment(request,course_id,assignment_id):
       submit_form = SubmitForm()
    return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
                                                            'assignment':assignment,'submit_form':submit_form})
+
+def view_tutor_course(request,course_id):
+   course = get_object_or_404(Course,pk=course_id)
+   notices = Notice.objects.filter(course=course)
+   questions = Question.objects.filter(course=course)
+   post_form = PostForm()
+   material_form = MaterialForm()
+
+   question_form = QuestionForm()
+   answer_form = AnswerForm()
+
+   if request.method=='POST':
+      if 'post_button' in request.POST:
+         post_form = PostForm(data = request.POST)
+         material_form = MaterialForm(request.POST, request.FILES)
+         
+         if post_form.is_valid() and material_form.is_valid():
+            post = post_form.save(commit=False)
+            post.tutor = get_object_or_404(Tutor,pk=request.user.id)
+            post.course = course
+            post.save()
+            #file = request.FILES['material']
+            file = request.FILES.get('material', False)
+            if file:
+               material = Material.objects.create(notice=post,material=file)
+               material.save()
+            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
+                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
+                'answer_form':answer_form})
+
+         else:
+            print(post_form.errors)
+
+   return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
+                'questions':questions,'post_form':post_form,'material_form':material_form,
+                'question_form':question_form,'answer_form':answer_form})
 
 def view_course(request,course_id,question_id=None):
    course = get_object_or_404(Course,pk=course_id)

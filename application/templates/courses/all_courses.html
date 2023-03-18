@@ -16,7 +16,11 @@
             <div class="card-body">
               <h4 class="card-title">{{course.name}}</h4>
               <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-              <a href="{% url 'course' course_id=course.pk %}" class="btn btn-primary">View</a>
+              {% if user.is_student %}
+                <a href="{% url 'course' course_id=course.pk %}" class="btn btn-primary">View</a>
+              {% else %}
+                <a href="{% url 'tutor_course' course_id=course.pk %}" class="btn btn-primary">View</a>
+              {% endif%}
             </div>
           </div>
         </div>
