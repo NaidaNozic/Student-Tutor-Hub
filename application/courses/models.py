@@ -74,7 +74,7 @@ class Question(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course,related_name='course_question',on_delete=models.CASCADE)
-    student = models.ForeignKey(Student,related_name='student_question',on_delete=models.CASCADE)
+    user = models.ForeignKey(NewUser,related_name='user_question',on_delete=models.CASCADE,null=True, blank=True)
 
     def __str__(self):
         return self.title

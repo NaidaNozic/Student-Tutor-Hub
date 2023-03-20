@@ -105,7 +105,7 @@ def submit_assignment(request,course_id,assignment_id):
    return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
                                                            'assignment':assignment,'submit_form':submit_form})
 
-def view_tutor_course(request,course_id):
+def view_tutor_course(request,course_id,question_id=None):
    course = get_object_or_404(Course,pk=course_id)
    notices = Notice.objects.filter(course=course)
    questions = Question.objects.filter(course=course)
@@ -125,7 +125,6 @@ def view_tutor_course(request,course_id):
             post.tutor = get_object_or_404(Tutor,pk=request.user.id)
             post.course = course
             post.save()
-            #file = request.FILES['material']
             file = request.FILES.get('material', False)
             if file:
                material = Material.objects.create(notice=post,material=file)
@@ -133,9 +132,36 @@ def view_tutor_course(request,course_id):
             return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
                 'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
                 'answer_form':answer_form})
-
          else:
             print(post_form.errors)
+
+      elif 'question_button' in request.POST:
+         question_form = QuestionForm(data = request.POST)
+
+         if question_form.is_valid():
+            question = question_form.save(commit=False)
+            question.course = course
+            question.user=request.user
+            question.save()
+            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
+                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
+                'answer_form':answer_form})
+         else:
+            print(question_form.errors)
+
+      elif 'reply_button' in request.POST:
+         answer_form = AnswerForm(data = request.POST)
+
+         if answer_form.is_valid():
+            answer = answer_form.save(commit=False)
+            answer.user = request.user
+            answer.question = get_object_or_404(Question,pk=question_id)
+            answer.save()
+            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
+                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
+                'answer_form':answer_form})
+         else:
+            print(answer_form.errors)
 
    return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
                 'questions':questions,'post_form':post_form,'material_form':material_form,
@@ -156,7 +182,7 @@ def view_course(request,course_id,question_id=None):
          if question_form.is_valid():
             question = question_form.save(commit=False)
             question.course = course
-            question.student = get_object_or_404(Student,pk=request.user.id)
+            question.user=request.user
             question.save()
             return render(request,"courses/course.html",{'course':course,'notices':notices,
                           'questions':questions,'question_form':question_form,'answer_form':answer_form})
