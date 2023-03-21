@@ -1,5 +1,9 @@
+{% extends 'courses/course.html' %}
+
+{% block courseContent%}
+
 <!--Assignments-->
-<div id="assignmentsDiv" class="positionCenter" style="display: none">
+<div id="assignmentsDiv" class="positionCenter">
 
 {% if course %}
 
@@ -11,12 +15,20 @@
   <table class="table table-bordered">
       <thead class="table-dark">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Assignment Name</th>
-          <th scope="col">Uploaded By</th>
-          <th scope="col">Upload Date</th>
-          <th scope="col">Assignment</th>
-          <th scope="col">Status</th>
+          {% if user.is_student %}
+            <th scope="col">#</th>
+            <th scope="col">Assignment Name</th>
+            <th scope="col">Uploaded By</th>
+            <th scope="col">Upload Date</th>
+            <th scope="col">Assignment</th>
+            <th scope="col">Status</th>
+          {% else %}
+            <th scope="col">#</th>
+            <th scope="col">Assignment Name</th>
+            <th scope="col">Upload Date</th>
+            <th scope="col">Assignment</th>
+            <th scope="col">Submissions</th>
+          {% endif %}
         </tr>
       </thead>
 
@@ -24,25 +36,37 @@
       
             {% for assignment in assignments %}
             <tr>
+              {% if user.is_student %}
                 <td scope="row">{{ forloop.counter }}</td>
                 <td>{{assignment.name}}</td>
                 <td>{{assignment.tutor.user.username}}</td>
                 <td>{{assignment.created_at}}</td>
                 <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
-
-              {% getSubmittedAssignments user as submissions%}
-              {% if assignment in submissions %}
-              <td>
-                <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
-                  <button style="all: unset; cursor: pointer;" name="submitted_button" 
-                          type="submit" value="Submitted">
-                        <a class="hoverText" style="text-decoration: none; color: black;">Submitted
-                        </a>
-                  </button>
-                </form>
-              </td>
               {% else %}
-                <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
+                <td scope="row">{{ forloop.counter }}</td>
+                <td>{{assignment.name}}</td>
+                <td>{{assignment.created_at}}</td>
+                <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
+              {% endif %}
+
+              {% if user.is_student %}
+                {% getSubmittedAssignments user as submissions%}
+                {% if assignment in submissions %}
+                <td>
+                  <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
+                    <button style="all: unset; cursor: pointer;" name="submitted_button" 
+                            type="submit" value="Submitted">
+                          <a class="hoverText" style="text-decoration: none; color: black;">Submitted
+                          </a>
+                    </button>
+                  </form>
+                </td>
+                {% else %}
+                  <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
+                {% endif %}
+
+              {% else %}
+                  <td><a href="#" class="btn btn-primary">View</a></td>
               {% endif %}
 
             </tr>
@@ -56,3 +80,4 @@
   {% endif %}
 </div>
 <!--End Assignments-->
+{% endblock %}

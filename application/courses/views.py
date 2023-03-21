@@ -72,6 +72,12 @@ def view_assignments(request,course_id):
 
    return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
 
+def assignment_overview(request,course_id):
+   course = get_object_or_404(Course,pk=course_id)
+   assignments = Assignment.objects.filter(course=course)
+
+   return render(request,'courses/assignments.html',{'course':course,'assignments':assignments})
+
 def submit_assignment(request,course_id,assignment_id):
    #za taj assignment se ovdje radi upload i brisanje submission-a
    student = request.user.Student
@@ -105,15 +111,12 @@ def submit_assignment(request,course_id,assignment_id):
    return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
                                                            'assignment':assignment,'submit_form':submit_form})
 
-def view_tutor_course(request,course_id,question_id=None):
+def view_tutor_course(request,course_id,post_id=None):
    course = get_object_or_404(Course,pk=course_id)
    notices = Notice.objects.filter(course=course)
    questions = Question.objects.filter(course=course)
    post_form = PostForm()
    material_form = MaterialForm()
-
-   question_form = QuestionForm()
-   answer_form = AnswerForm()
 
    if request.method=='POST':
       if 'post_button' in request.POST:
@@ -129,13 +132,25 @@ def view_tutor_course(request,course_id,question_id=None):
             if file:
                material = Material.objects.create(notice=post,material=file)
                material.save()
-            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
-                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
-                'answer_form':answer_form})
+            return render(request,"courses/course.html",{'course':course,'notices':notices,
+                                  'post_form':post_form,'material_form':material_form})
          else:
             print(post_form.errors)
 
-      elif 'question_button' in request.POST:
+   return render(request,"courses/course.html",{'course':course,'notices':notices,
+                                  'post_form':post_form,'material_form':material_form})
+
+#For both tutors and students
+def view_questions_tutor(request,course_id,question_id=None):
+   course = get_object_or_404(Course,pk=course_id)
+   questions = Question.objects.filter(course=course)
+
+   question_form = QuestionForm()
+   answer_form = AnswerForm()
+
+   if request.method=='POST':
+
+      if 'question_button' in request.POST:
          question_form = QuestionForm(data = request.POST)
 
          if question_form.is_valid():
@@ -143,9 +158,8 @@ def view_tutor_course(request,course_id,question_id=None):
             question.course = course
             question.user=request.user
             question.save()
-            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
-                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
-                'answer_form':answer_form})
+            return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
          else:
             print(question_form.errors)
 
@@ -157,53 +171,17 @@ def view_tutor_course(request,course_id,question_id=None):
             answer.user = request.user
             answer.question = get_object_or_404(Question,pk=question_id)
             answer.save()
-            return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
-                'questions':questions,'post_form':post_form,'material_form':material_form,'question_form':question_form,
-                'answer_form':answer_form})
+            return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
          else:
             print(answer_form.errors)
 
-   return render(request,"courses/tutor_course.html",{'course':course,'notices':notices,
-                'questions':questions,'post_form':post_form,'material_form':material_form,
-                'question_form':question_form,'answer_form':answer_form})
+   return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                                      'question_form':question_form,'answer_form':answer_form})
+
 
 def view_course(request,course_id,question_id=None):
    course = get_object_or_404(Course,pk=course_id)
    notices = Notice.objects.filter(course=course)
-   questions = Question.objects.filter(course=course)
-   question_form = QuestionForm()
-   answer_form = AnswerForm()
 
-   if request.method=="POST":
-      if 'question_button' in request.POST:
-         question_form = QuestionForm(data = request.POST)
-         answer_form = AnswerForm()
-
-         if question_form.is_valid():
-            question = question_form.save(commit=False)
-            question.course = course
-            question.user=request.user
-            question.save()
-            return render(request,"courses/course.html",{'course':course,'notices':notices,
-                          'questions':questions,'question_form':question_form,'answer_form':answer_form})
-
-         else:
-            print(question_form.errors)
-
-      if 'reply_button' in request.POST:
-         answer_form = AnswerForm(data = request.POST)
-         question_form = QuestionForm()
-
-         if answer_form.is_valid():
-            answer = answer_form.save(commit=False)
-            answer.user = request.user
-            answer.question = get_object_or_404(Question,pk=question_id)
-            answer.save()
-            return render(request,"courses/course.html",{'course':course,'notices':notices,
-                          'questions':questions,'question_form':question_form,'answer_form':answer_form})
-
-         else:
-            print(answer_form.errors)
-
-   return render(request,"courses/course.html",{'course':course,'notices':notices,
-                'questions':questions,'question_form':question_form,'answer_form':answer_form})
+   return render(request,"courses/course.html",{'course':course,'notices':notices})

@@ -34,16 +34,22 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul id="meniItems" class="navbar-nav" style="margin: auto;">
       <li id="buttonQuestions" class="nav-item meniButtonColor">
-        <a class="nav-link">
+        <a href="{% url 'view_questions_tutor' course_id=course.pk %}" class="nav-link">
           <i class="fa-solid fa-question" style="margin-right: 5px;"></i>Questions</a>
       </li>
       <li id="buttonPosts" class="nav-item active meniButtonColor">
-        <a class="nav-link" style="margin:0 25px 0 25px;">
+        {% if user.is_student %}
+        <a href="{% url 'course' course_id=course.pk %}" class="nav-link" style="margin:0 25px 0 25px;">
           <i class="fa-solid fa-house"></i>
           Posts</a>
+        {% else %}
+        <a href="{% url 'tutor_course' course_id=course.pk %}" class="nav-link" style="margin:0 25px 0 25px;">
+          <i class="fa-solid fa-house"></i>
+          Posts</a>
+        {% endif %}
       </li>
       <li id="buttonAssignments" class="nav-item meniButtonColor">
-        <a class="nav-link">
+        <a href="{% url 'assignment_overview' course_id=course.pk %}" class="nav-link">
           <i class="fa-solid fa-list-check" style="margin-right: 5px;"></i>
           Assignments</a>
       </li>
@@ -53,11 +59,10 @@
 <!--End Meni-->
 </div>
 <br>
-{% include 'courses/posts.html' with notices=notices %}
 
-{% include 'courses/questions.html' with questions=questions course=course %}
-
-{% include 'courses/assignments.html' with course=course %}
+{% block courseContent%}
+  {% include 'courses/posts.html' with notices=notices %}
+{% endblock %}
 
 {% endif %}
 

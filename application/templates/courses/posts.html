@@ -36,14 +36,35 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   <div class="container containerWithBorder">
  
-    <div class="row" style="margin-bottom: 5px; height: fit-content;">
+    <div class="row" style="height: fit-content; padding: 5px;">
       <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
         <h3 style="margin: 5px;">{{ post.name }}</h3>
       </div>
       <div class="cols-sm-2 col-md-2 col-lg-2">
       </div>
-      <div class="cols-sm-4 col-md-4 col-lg-4" style=" height: fit-content;">
-        <p style="text-align: right;margin: 5px; font-size: small;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
+      <div class="cols-sm-4 col-md-4 col-lg-4" style="height: fit-content; position: relative;">
+        <p style="text-align: right;margin: 5px 25px 5px 5px; font-size: small;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
+        {% if user.is_tutor %}
+        <!--Delete-->
+        <div style="position: absolute; right:10px; top: 3px;">
+          <ul style="list-style-type: none;">
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <form method="POST">
+                    {% csrf_token %}
+                    <button class="dropdown-item" name="delete_post_button" type="submit" value="Delete">Delete</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!--End Delete-->
+        {% endif %}
       </div>
     </div>
 
@@ -54,12 +75,12 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
     </div>
 
     {% load tag %}
-    <div class="row">
+    <div class="row" style="padding: 5px;">
 
         {% getMaterials post as materials %}
         {% for material in materials %}
 
-        <div style="height: fit-content; position: relative;">
+        <div class="cols-sm-10 col-md-10 col-lg-10" style="height: fit-content; position: relative;">
 
           <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
           display: inline-block; margin: 10px;">
@@ -71,8 +92,6 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
         {% endfor %}
 
     </div>
-    
-
   </div>
 
   {% endfor %}

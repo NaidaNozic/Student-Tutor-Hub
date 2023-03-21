@@ -69,6 +69,10 @@ class Material(models.Model):
     def __str__(self):
         return str(self.material)
 
+    def delete(self, *args, **kwargs):
+        self.material.delete()
+        super().delete(*args, **kwargs)
+
 class Question(models.Model):
     title = models.CharField(max_length=50)
     text = models.TextField()

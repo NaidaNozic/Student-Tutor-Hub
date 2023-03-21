@@ -1,6 +1,11 @@
+{% extends 'courses/course.html' %}
+
+
+{% block courseContent%}
+
 <!--Add Question-->
 <div id="addQuestions" class="card-footer" 
-     style="background-color: #f8f9fa; width: 50%; display: none; margin-right: auto; margin-left: auto;
+     style="background-color: #f8f9fa; width: 50%; margin-right: auto; margin-left: auto;
             border: 1px solid lightgray; border-radius: 10px; padding: 5px 5px 5px 0;">
   <div class="d-flex flex-start w-100">
     <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
@@ -9,8 +14,8 @@
       <h4 style="display: inline-block; position: absolute; top: 8px; margin-left: 5px;">Leave a question</h4>
       <br>
 
-      {% if user.is_tutor %}
-        <form action="{% url 'tutor_course' course_id=course.pk %}" method="POST" style="margin-top: 5px;">
+
+        <form action="{% url 'view_questions_tutor' course_id=course.pk %}" method="POST" style="margin-top: 5px;">
           {% csrf_token %}
         <p> <label>{{ question_form.title.label_tag }}</label>{{ question_form.title }}</p>
         <div class="form-group">
@@ -21,19 +26,6 @@
           <button type="submit" class="btn btn-primary btn-sm" name="question_button">Post a question</button>
         </div>
         </form>
-      {% else %}
-        <form action="{% url 'course' course_id=course.pk %}" method="POST" style="margin-top: 5px;">
-          {% csrf_token %}
-        <p> <label>{{ question_form.title.label_tag }}</label>{{ question_form.title }}</p>
-        <div class="form-group">
-        <p> <label >{{ question_form.text.label_tag }}</label> <br>  {{ question_form.text }}</p>
-        </div>
-
-        <div class="float-end mt-2 pt-1">
-          <button type="submit" class="btn btn-primary btn-sm" name="question_button">Post a question</button>
-        </div>
-        </form>
-      {% endif %}
 
     </div>
   </div>
@@ -41,7 +33,7 @@
 <!--End Add Question-->
 
 <!--List of Questions-->
-<div id="questions" class="container" style="display:none; width: 100%; 
+<div id="questions" class="container" style="width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
 {% if questions %}
@@ -90,8 +82,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <div class="row">
 
         <!--Answer Form-->
-        {% if user.is_tutor %}
-          <form action="{% url 'tutor_course' course_id=course.pk question_id=question.pk %}" method="POST" style="margin-top: 5px;">
+          <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk %}" method="POST" style="margin-top: 5px;">
             {% csrf_token %}
             <div class="form-group">
             <p> <label >{{ answer_form.text.label_tag }}</label> <br>  {{ answer_form.text }}</p>
@@ -101,18 +92,6 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
               <button type="submit" class="btn btn-primary btn-sm" name="reply_button">Post the answer</button>
             </div>
           </form>
-        {% else %}
-          <form action="{% url 'course' course_id=course.pk question_id=question.pk %}" method="POST" style="margin-top: 5px;">
-            {% csrf_token %}
-            <div class="form-group">
-            <p> <label >{{ answer_form.text.label_tag }}</label> <br>  {{ answer_form.text }}</p>
-            </div>
-
-            <div class="float-end mt-2 pt-1">
-              <button type="submit" class="btn btn-primary btn-sm" name="reply_button">Post the answer</button>
-            </div>
-          </form>
-        {% endif %}
         <!--End Answer Form-->
 
           <div>
@@ -137,3 +116,5 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
 </div>
 <!--End of Questions-->
+
+{% endblock %}
