@@ -114,7 +114,6 @@ def submit_assignment(request,course_id,assignment_id):
 def view_tutor_course(request,course_id,post_id=None):
    course = get_object_or_404(Course,pk=course_id)
    notices = Notice.objects.filter(course=course)
-   questions = Question.objects.filter(course=course)
    post_form = PostForm()
    material_form = MaterialForm()
 
@@ -136,6 +135,14 @@ def view_tutor_course(request,course_id,post_id=None):
                                   'post_form':post_form,'material_form':material_form})
          else:
             print(post_form.errors)
+
+      elif 'delete_post_button' in request.POST:
+         notice = get_object_or_404(Notice,pk=post_id)
+         Material.objects.filter(notice=notice).delete()
+         notice.delete()
+         notices = Notice.objects.filter(course=course)
+         return render(request,"courses/course.html",{'course':course,'notices':notices,
+                                  'post_form':post_form,'material_form':material_form})
 
    return render(request,"courses/course.html",{'course':course,'notices':notices,
                                   'post_form':post_form,'material_form':material_form})
@@ -175,6 +182,13 @@ def view_questions_tutor(request,course_id,question_id=None):
                                   'question_form':question_form,'answer_form':answer_form})
          else:
             print(answer_form.errors)
+
+      elif 'delete_question_button' in request.POST:
+         question = get_object_or_404(Question,pk=question_id)
+         question.delete()
+         questions = Question.objects.filter(course=course)
+         return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
 
    return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                                       'question_form':question_form,'answer_form':answer_form})

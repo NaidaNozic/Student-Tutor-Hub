@@ -43,13 +43,34 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
-    <div style="display: inline-block; width: fit-content; height: fit-content; margin: 10px 0 0 0;">
+    <div style="display: inline-block; width: auto; height: fit-content; margin: 10px 0 0 0;">
       <i class="fa-solid fa-circle-user fa-2x"></i>
     </div>
-    <div style=" height: fit-content; padding: 0;width:fit-content;display:inline-block">
+    <div style=" height: fit-content; padding: 0;width:auto;display:inline-block">
       <p style="margin: 5px; text-align: left;">{{ question.user.username }}<br>
       <span style="font-size: small; text-align: left; color: gray;">{{ question.created_at }}</span></p>
     </div>
+    <!--Delete-->
+    {% if user.username == question.user.username %}
+    <div style="position: absolute; right:10px; top: 5px; width: auto;">
+      <ul style="list-style-type: none;">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk %}" method="POST">
+                {% csrf_token %}
+                <button class="dropdown-item" name="delete_question_button" type="submit" value="Delete">Delete</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+    <!--End Delete-->
     <div style="text-align: justify; margin-top: 25px; margin-bottom: 5px;">
       <h4>{{ question.title }}</h4>
     </div>
@@ -62,7 +83,6 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
               style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 10px 15px;">
       Reply</button>
     </div>
-  
   </div>
   <!--Answers-->
   {% load tag %}

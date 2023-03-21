@@ -45,6 +45,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <div class="cols-sm-4 col-md-4 col-lg-4" style="height: fit-content; position: relative;">
         <p style="text-align: right;margin: 5px 25px 5px 5px; font-size: small;">{{ post.tutor.user.username }}<br>{{ post.created_at }}</p>
         {% if user.is_tutor %}
+        {% if user.username == post.tutor.user.username %}
         <!--Delete-->
         <div style="position: absolute; right:10px; top: 3px;">
           <ul style="list-style-type: none;">
@@ -54,7 +55,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <form method="POST">
+                  <form action="{% url 'tutor_course' course_id=course.pk post_id=post.pk %}" method="POST">
                     {% csrf_token %}
                     <button class="dropdown-item" name="delete_post_button" type="submit" value="Delete">Delete</button>
                   </form>
@@ -64,6 +65,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
           </ul>
         </div>
         <!--End Delete-->
+        {% endif %}
         {% endif %}
       </div>
     </div>
