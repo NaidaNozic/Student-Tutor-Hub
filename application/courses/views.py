@@ -4,7 +4,7 @@ from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material
+from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -148,7 +148,7 @@ def view_tutor_course(request,course_id,post_id=None):
                                   'post_form':post_form,'material_form':material_form})
 
 #For both tutors and students
-def view_questions_tutor(request,course_id,question_id=None):
+def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
    course = get_object_or_404(Course,pk=course_id)
    questions = Question.objects.filter(course=course)
 
@@ -187,6 +187,11 @@ def view_questions_tutor(request,course_id,question_id=None):
          question = get_object_or_404(Question,pk=question_id)
          question.delete()
          questions = Question.objects.filter(course=course)
+         return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
+      elif 'delete_answer_button' in request.POST:
+         answer = get_object_or_404(Answer,pk=answer_id)
+         answer.delete()
          return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                   'question_form':question_form,'answer_form':answer_form})
 

@@ -87,11 +87,11 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
   <!--Answers-->
   {% load tag %}
   {% getAnswers question as answers %}
-  <div class="modal fade" id="exampleModalLong{{question.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal fade" id="exampleModalLong{{question.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle{{question.pk}}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Answers</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle{{question.pk}}">Answers</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
