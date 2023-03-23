@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm
+from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm,AssignmentForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -75,8 +75,39 @@ def view_assignments(request,course_id):
 def assignment_overview(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
    assignments = Assignment.objects.filter(course=course)
+   assignment_form = AssignmentForm()
 
-   return render(request,'courses/assignments.html',{'course':course,'assignments':assignments})
+   if request.method == 'POST':
+      if 'assignment_upload_button' in request.POST:
+         assignment_form = AssignmentForm(request.POST, request.FILES)
+         if assignment_form.is_valid():
+            file = request.FILES['file_assignment']
+            assignment = assignment_form.save(commit=False)
+            assignment.tutor = request.user.Tutor
+            assignment.course = course
+            assignment.file_assignment=file
+            assignment.save()
+
+            assignment_form = AssignmentForm()
+            assignments = Assignment.objects.filter(course=course)
+            return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
+
+   return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
+
+def view_submissions(request,course_id,assignment_id):
+   course = get_object_or_404(Course,pk=course_id)
+   assignment = get_object_or_404(Assignment,pk=assignment_id)
+   submissions = Submission.objects.filter(assignment=assignment)
+
+   if request.method=='POST':
+      if 'assignment_delete_button' in request.POST:
+            assignment.delete()
+            assignment_form = AssignmentForm()
+            assignments = Assignment.objects.filter(course=course)
+            return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
+
+   return render(request,'courses/submissions.html',{'course':course,'submissions':submissions})
+
 
 def submit_assignment(request,course_id,assignment_id):
    #za taj assignment se ovdje radi upload i brisanje submission-a

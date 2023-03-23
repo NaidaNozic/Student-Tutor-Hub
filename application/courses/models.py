@@ -102,6 +102,10 @@ class Assignment(models.Model):
     def __str__(self):
         return 'Assignment: '+self.name
 
+    def delete(self, *args, **kwargs):
+        self.file_assignment.delete()
+        super().delete(*args, **kwargs)
+
     class Meta:
         ordering = ['-created_at']
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from courses.models import NewUser,Student,Question,Answer,Submission,Notice,Material
+from courses.models import NewUser,Student,Question,Answer,Submission,Notice,Material,Assignment
 from django.db import transaction
 
 # Create your forms here.
@@ -65,3 +65,10 @@ class SubmitForm(forms.ModelForm):
     class Meta():
         model = Submission
         fields = ['file_submission']
+
+class AssignmentForm(forms.ModelForm):
+    name = forms.CharField(label='Assignment title:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    file_assignment = forms.FileField()
+    class Meta():
+        model = Assignment
+        fields = ['name','file_assignment']

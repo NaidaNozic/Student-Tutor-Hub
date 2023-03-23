@@ -5,7 +5,50 @@
 <!--Assignments-->
 <div id="assignmentsDiv" class="positionCenter">
 
+  {% if user.is_tutor %}
+  <div style="margin-bottom: 20px;">
+    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalUpload" style="width: 100%;">
+      <i class="fa-solid fa-plus"></i>
+      New Assignment
+    </button>
+  </div>
+  {% endif %}
+
 {% if course %}
+  {% if assignment_form %}
+  <!--Modal Create Assignment-->
+  <div id="ModalUpload" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Upload a new assignment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+    
+        <div class="modal-body">
+
+          <!--Create Assignment-->
+          {% if user.is_tutor %}
+          <form enctype="multipart/form-data" action="{% url 'assignment_overview' course_id=course.pk %}" method="POST">
+              {% csrf_token %}
+              <p style="font-size: large;"> <label >{{ assignment_form.name.label_tag }}</label> <br>{{ assignment_form.name }}</p>
+              <p style="font-size: large;"> <label >{{ assignment_form.file_assignment.label_tag }}</label> <br></p>
+              <p>{{ assignment_form.file_assignment }}</p>
+              <button type="submit" class="btn btn-primary" name="assignment_upload_button">Upload</button>
+          </form>
+          {% endif %}
+        <!--End Create Assignment-->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--End Modal Create Assignement-->
+  {% endif %}
 
 {% load tag %}
 {% getAssignments course as assignments%}
@@ -28,6 +71,7 @@
             <th scope="col">Upload Date</th>
             <th scope="col">Assignment</th>
             <th scope="col">Submissions</th>
+            <th scope="col"></th>
           {% endif %}
         </tr>
       </thead>
@@ -66,9 +110,14 @@
                 {% endif %}
 
               {% else %}
-                  <td><a href="#" class="btn btn-primary">View</a></td>
+                  <td><a href="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" class="btn btn-primary">View</a></td>
+                  <td>
+                    <form action="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger" name="assignment_delete_button">Delete</button>
+                    </form>
+                  </td>
               {% endif %}
-
             </tr>
 
             {% endfor%}
