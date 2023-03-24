@@ -15,12 +15,14 @@
         </div>
         <a href="{{ submission.file_submission.url }}" class="verticalCenter" style="font-size:small">{{ submission.file_submission.url }}</a>
 
+    </div>
+    <div style="position: absolute; bottom: 18px; right: 18px;">
         <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="POST">
             {% csrf_token %}
             <button class="btn btn-danger btn-sm" name="delete_button" 
                     type="submit" value="Delete">Delete</button>
         </form>
-      </div>
+    </div>
 </div>
 {% endif %}
 {% endif %}

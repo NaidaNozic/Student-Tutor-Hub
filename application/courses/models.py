@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import os
 
 # Create your models here.
 
@@ -68,6 +69,10 @@ class Material(models.Model):
 
     def __str__(self):
         return str(self.material)
+
+    @property
+    def filename(self):
+        return os.path.basename(self.material.name)
 
     def delete(self, *args, **kwargs):
         self.material.delete()

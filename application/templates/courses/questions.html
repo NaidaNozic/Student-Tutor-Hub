@@ -3,26 +3,30 @@
 
 {% block courseContent%}
 
+<!--List of Questions-->
+<div id="questions" class="container" style="width: 100%; 
+height: fit-content; margin-top: 20px; margin-bottom: 20px;">
+
 <!--Add Question-->
-<div id="addQuestions" class="card-footer" 
-     style="background-color: #f8f9fa; width: 50%; margin-right: auto; margin-left: auto;
-            border: 1px solid lightgray; border-radius: 10px; padding: 5px 5px 5px 0;">
-  <div class="d-flex flex-start w-100">
+<div id="addQuestions" class="containerWithBorder" style="min-width: 500px;">
+  <div class="row" style="margin-bottom: 5px; height: fit-content;">
     <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
-    <div class="form-outline w-100" style="margin-left: 5px; position: relative;">
-      <i class="fa-regular fa-comment-dots fa-2x" style="margin: 8px;"></i>
-      <h4 style="display: inline-block; position: absolute; top: 8px; margin-left: 5px;">Leave a question</h4>
-      <br>
+    <div class="form-outline w-100" style="position: relative;">
+
+      <div style="background-color: #24242c;">
+      <i class="fa-regular fa-comment-dots fa-2x" style="margin: 25px 8px 25px 25px; color: white;"></i>
+      <h4 style="display: inline-block; position: absolute; top: 25px; margin-left: 5px; color: white;">Leave a question</h4>
+      </div>
 
 
-        <form action="{% url 'view_questions_tutor' course_id=course.pk %}" method="POST" style="margin-top: 5px;">
+        <form action="{% url 'view_questions_tutor' course_id=course.pk %}" method="POST" style="margin: 25px;">
           {% csrf_token %}
         <p> <label>{{ question_form.title.label_tag }}</label>{{ question_form.title }}</p>
         <div class="form-group">
         <p> <label >{{ question_form.text.label_tag }}</label> <br>  {{ question_form.text }}</p>
         </div>
 
-        <div class="float-end mt-2 pt-1">
+        <div class="float-end mt-2 pt-1" style="margin-bottom: 15px;">
           <button type="submit" class="btn btn-primary btn-sm" name="question_button">Post a question</button>
         </div>
         </form>
@@ -32,14 +36,10 @@
 </div>
 <!--End Add Question-->
 
-<!--List of Questions-->
-<div id="questions" class="container" style="width: 100%; 
-height: fit-content; margin-top: 20px; margin-bottom: 20px;">
-
 {% if questions %}
 {% for question in questions %}
 
-<div class="container containerWithBorder">
+<div class="container containerWithBorder" style="padding: 20px;">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
@@ -80,7 +80,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
     <div style="position: relative; width: 100%; height: 50px; margin-top: 10px;">
       <button type="button" id="replyButton{{question.pk}}" data-bs-toggle="modal" data-bs-target="#exampleModalLong{{question.pk}}"
               class="btn btn-primary btn-sm" 
-              style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 10px 15px;">
+              style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 0px 15px;">
       Reply</button>
     </div>
   </div>

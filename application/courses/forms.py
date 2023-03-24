@@ -40,7 +40,8 @@ class QuestionForm(forms.ModelForm):
     text = forms.CharField(label='Question:', 
                            widget=forms.Textarea(attrs={"rows":2,"cols":60,
                                                         "placeholder":"What is your question?",
-                                                        "class":"form-control"}))
+                                                        "class":"form-control",
+                                                        "id":"id_text1"}))
 
     class Meta():
         model =  Question
@@ -55,7 +56,9 @@ class AnswerForm(forms.ModelForm):
 
 class PostForm(forms.ModelForm):
     name = forms.CharField(label='Title:', widget=forms.TextInput(attrs={'class':'form-control'}))
-    text = forms.CharField(label='Text:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    text = forms.CharField(label='Text:', widget=forms.Textarea(attrs={ "rows":2,"cols":60,
+                                                                        "class":"form-control",
+                                                                        "id":"id_text2"}))
     class Meta():
         model = Notice
         fields = ['name','text']

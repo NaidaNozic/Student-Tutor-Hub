@@ -4,13 +4,15 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
  <!--Post Form-->
  {% if user.is_tutor %}
- <div class="containerWithBorder">
+ <div class="containerWithBorder" style="min-width: 500px;">
    <div class="row" style="margin-bottom: 5px; height: fit-content;">
      <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
      <div class="form-outline w-100" style="position: relative;">
-       <i class="fa-regular fa-comment-dots fa-2x" style="margin: 25px 8px 8px 25px;"></i>
-       <h4 style="display: inline-block; position: absolute; top: 25px; margin-left: 5px;">Create a post</h4>
-       <br>
+
+      <div style="background-color: #24242c;">
+       <i class="fa-regular fa-comment-dots fa-2x" style="margin: 25px 8px 25px 25px; color: white;"></i>
+       <h4 style="display: inline-block; position: absolute; top: 25px; margin-left: 5px; color: white;">Create a post</h4>
+      </div>
  
        <form enctype="multipart/form-data" action="{% url 'tutor_course' course_id=course.pk%}" method="POST" style="margin: 25px;">
          {% csrf_token %}
@@ -34,9 +36,9 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   {% for post in notices %}
 
-  <div class="container containerWithBorder">
+  <div class="container containerWithBorder" style="padding: 15px; min-width: 500px;">
  
-    <div class="row" style="height: fit-content; padding: 5px;">
+    <div class="row" style="height: fit-content; padding: 5px; min-width: 500px;">
       <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
         <h3 style="margin: 5px;">{{ post.name }}</h3>
       </div>
@@ -70,25 +72,27 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       </div>
     </div>
 
-    <div class="row" style="margin-bottom: 5px;">
+    <div class="row" style="padding: 5px 5px 0px 5px;">
       <div style="height: fit-content;">
-        <p style="margin: 5px; word-wrap: break-word; text-align: justify; padding: 0;">{{ post.text }}</p>
+        <p style="margin: 5px; word-wrap: break-word; text-align: justify;">{{ post.text }}</p>
       </div>
     </div>
 
     {% load tag %}
-    <div class="row" style="padding: 5px;">
+    <div class="row" style="padding: 5px 5px 0px 5px;">
 
         {% getMaterials post as materials %}
         {% for material in materials %}
 
-        <div class="cols-sm-10 col-md-10 col-lg-10" style="height: fit-content; position: relative;">
+        <div class="cols-sm-10 col-md-10 col-lg-10" 
+        style="height: fit-content; position: relative; min-width: 300px; max-width: fit-content; margin-top: 10px;
+               padding: 0px; margin-left: 15px; border: 1px solid #8080807d; border-radius: 5px;">
 
           <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
           display: inline-block; margin: 10px;">
           <i style="color: white;" class="fa-regular fa-file fa-2x"></i>
           </div>
-          <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.material.url }}</a>
+          <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.filename }}</a>
         </div>
 
         {% endfor %}
