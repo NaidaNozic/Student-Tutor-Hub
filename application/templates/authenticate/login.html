@@ -1,6 +1,7 @@
 {% extends 'courses/base.html' %}
 {% block registerUserContent %}
 
+<div id="loginDiv">
 {% if messages %}
     {% for message in messages %}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -9,7 +10,8 @@
     </div>
     {% endfor %}
 {% endif %}
-<div class="loginBox">
+<div class="loginBox" style="background-color: white; border-radius: 15px; padding: 25px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 <h1>Log in</h1>
 <br>
 <form action="{% url 'login' %}" method="post">
@@ -24,5 +26,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Log in</button>
   </form>
+</div>
+
 </div>
 {% endblock %}

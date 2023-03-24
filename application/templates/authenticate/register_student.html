@@ -6,7 +6,8 @@
 <p>There was an error with your form...</p>
 {% endif %}
 
-<div class="loginBox">
+<div class="loginBox" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 15px; padding: 25px;
+                             background-color: white;">
     <h1>Register</h1>
     <br>
 <form action="{% url 'register_student' %}" method="POST">
