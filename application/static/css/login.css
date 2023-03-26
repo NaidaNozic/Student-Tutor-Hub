@@ -87,6 +87,16 @@
   top:50%;
 }
 
+.horizontalCenter{
+  display: flex;
+  justify-content: center;
+}
+
+.horizontalCenter1{
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .breakText{
   word-wrap: break-word;
   text-align: justify; 

@@ -1,0 +1,99 @@
+{% extends 'courses/dashboard.html' %}
+
+{% block content_courses %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% load static %}
+<div class="row no-gutters">
+
+    <div class="col no-gutters">
+        <div id="leftside">
+
+            <div style="margin-top:5%; margin-left: 50%; width: 280px;">
+                <div class="horizontalCenter" style="width: 100%;">
+                    <img src="{% static 'img/user.png' %}" style="width: 120px;" alt="user">
+                </div>
+                <p class="horizontalCenter" style="font-weight: bold; margin-bottom: 5px;">{{ user.username }}</p>
+                <hr style="background-color: lightgray; opacity: 1;">
+            </div>
+
+            <div style="margin-left: 50%; width: 280px; margin-top: 20px;">
+                <p style="font-weight: bold; margin-left: 10px;">About</p>
+                <div style="background-color: lightgray; border-radius: 20px; height: fit-content;">
+
+                    <div style="padding: 10px;">
+                        <p><span>Name</span>
+                            <br><span style="font-weight: lighter;">{{ user.first_name }}</span></p>
+
+                        <p><span>Last name</span>
+                            <br><span style="font-weight: lighter;">{{ user.last_name }}</span></p>
+
+                        <p><span>Username</span>
+                            <br><span style="font-weight: lighter;">{{ user.username }}</span></p>
+                        {% load tag %}
+                        {% if user.is_student %}
+                           {% getStudent user as student %}
+                            <p><span>Phone</span>
+                                <br><span style="font-weight: lighter;">{{ student.phone }}</span></p>
+                            <p><span>Age</span>
+                                <br><span style="font-weight: lighter;">{{ student.age }}</span></p>
+                        {% else %}
+                            {% getTutor user as tutor %}
+                                <p><span>Phone</span>
+                                    <br><span style="font-weight: lighter;">{{ tutor.phone }}</span></p>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+
+                <p style="font-weight: bold; margin-left: 10px; margin-top: 20px;">Contact</p>
+                <div style="background-color: lightgray; border-radius: 20px; height: fit-content;">
+
+                    <div style="padding: 10px;">
+                        <p><span>Email</span>
+                            <br><span style="font-weight: lighter;">{{ user.email }}</span></p>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col no-gutters">
+        <div id="rightside">
+            <div style="margin-top:10%; margin-left: 5%;">
+                <h4>Edit profile</h4>
+                <br>
+                <p><span>Your current email</span>
+                    <br><span style="font-weight: lighter;">{{ user.email }}</span></p>
+                
+                <form action="{% url 'profile' pk=user.pk %}" method="POST">
+                    {% csrf_token %}
+                    <p><label>Your new email</label><br></p>
+                    <p>{{ user_form.email }}</p>
+
+                    <p><label>Your new first name</label></p>
+                    <p>{{ user_form.first_name }}</p>
+
+                    <p><label>Your new last name</label></p>
+                    <p>{{ user_form.last_name }}</p>
+                    <button type="submit" class="btn btn-primary" name="update_user_button">Save changes</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

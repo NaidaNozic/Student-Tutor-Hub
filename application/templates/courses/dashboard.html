@@ -36,7 +36,7 @@
                     <a class="nav-link" href="#">Chat</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link" href="{% url 'profile' pk=user.pk %}">Profile</a>
                   </li>
                   {% if user.is_authenticated %}
                   <li class="nav-item">

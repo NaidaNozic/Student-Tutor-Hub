@@ -19,6 +19,16 @@ class NewUserForm(UserCreationForm):
         model = NewUser
         fields = ['first_name','last_name','username','email','password1','password2']
 
+class UserUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(required=False, label='First name:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    last_name = forms.CharField(required=False, label='Last name:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    email = forms.EmailField(required=False, label='Email:', widget=forms.EmailInput(attrs={"placeholder": "etc. name@example.com",
+                                                                            "class":"form-control"}))
+    class Meta():
+        model = NewUser
+        fields = ['first_name','last_name','email']
+
+
 class StudentProfileForm(forms.ModelForm):
     phone = forms.CharField(label='Phone number:', widget=forms.NumberInput(
         attrs={"placeholder": "etc. 38762878785","class":"form-control"}))

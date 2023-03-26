@@ -1,5 +1,5 @@
 from django import template
-from ..models import Material,Answer,Assignment,Submission,Student
+from ..models import Material,Answer,Assignment,Submission,Student,Tutor
 from django.shortcuts import get_object_or_404
 
 register = template.Library()
@@ -33,3 +33,15 @@ def getSubmittedAssignments(user):
     submissions = [x.assignment for x in submission_list]
 
     return submissions
+
+@register.simple_tag
+def getStudent(user):
+
+    student = get_object_or_404(Student,user=user)
+    return student
+
+@register.simple_tag
+def getTutor(user):
+
+    tutor = get_object_or_404(Tutor,user=user)
+    return tutor

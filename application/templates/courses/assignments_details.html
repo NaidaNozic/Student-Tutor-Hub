@@ -45,7 +45,7 @@
                              target="_blank">Download</a></td>
 
                     {% load tag %}
-                    {% getSubmittedAssignments user as submissions%}
+                    {% getSubmittedAssignments user as submissions %}
                     {% if assignment in submissions %}
                       <td>
                         <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">

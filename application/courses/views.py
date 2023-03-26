@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm,AssignmentForm
+from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm,AssignmentForm,UserUpdateForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer
+from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer,NewUser
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -65,6 +65,35 @@ def dashboard(request):
    else:
       courses = Course.objects.all()
    return render(request,"courses/all_courses.html",{'all_courses':courses})
+
+def profile(request,pk):
+   user_form = UserUpdateForm()
+
+   if request.method=='POST':
+      user = get_object_or_404(NewUser,pk=pk)
+
+      if 'update_user_button' in request.POST:
+         user_form = UserUpdateForm(data = request.POST)
+         if user_form.is_valid():
+            email= user_form.cleaned_data.get("email")
+            first_name= user_form.cleaned_data.get("first_name")
+            last_name= user_form.cleaned_data.get("last_name")
+            if email:
+               user.email = email
+            if first_name:
+               user.first_name = first_name
+            if last_name:
+               user.last_name = last_name
+            user.save()
+            messages.success(request,"Update successful!")
+            user_form = UserUpdateForm()
+
+            return render(request,'courses/profile.html',{'user_form':user_form})
+
+         else:
+            print(user_form.errors.as_data())
+
+   return render(request,'courses/profile.html',{'user_form':user_form})
 
 def view_assignments(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
