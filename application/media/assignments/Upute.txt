@@ -1,0 +1,28 @@
+Instalirati Windows server 2012 u VBox
+Bridged adapter!
+
+Izmjena naziva servera:
+Local server -> klik na ime, otvori se system properties -> klik na change, promijeniti ime -> OK, restart
+
+Dodavanje DHCP i DNS:
+Manage -> Add Roles & Features -> Pratiti proces (imati u vidu warning zbog nepostojeæe statièke IP adrese, ali to æe biti kasnije popravljeno)
+
+Za DHCP potrebne postavke nakon instalacije:
+Staticka IP adresa: desni klik na mrežni simbol na taskbaru -> Open Network and Sharing Center -> 
+Change Adapter Settings -> desni klik na ikonu konekcije i properties -> tcp/ip4 -> properties -> podesiti IP adrese
+npr:
+	IP: 192.168.0.2
+	Subnet mask: 255.255.255.0
+	gateway: 192.168.0.1
+
+	DNS:
+	primarni: 192.168.0.2	
+	sekundardni: 8.8.8.8
+Tools -> DHCP -> Desni klik na IPv4 -> New scope -> napraviti scope -> ... -> dodatne opcije -> dodati gateway
+Ovdje je novi scope i može se refreshati i prikazat æe nove ureðaje
+
+
+ZA DNS potrebne postavke nakon instalacije:
+Tools -> DNS -> Dodati zonu -> U zonu dodati rekorde za prevode
+
+ping (naziv ureðaja.zona), npr ping pc1.test.com, gdje je zona test.com

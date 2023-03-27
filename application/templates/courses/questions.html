@@ -8,6 +8,7 @@
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
 <!--Add Question-->
+{% if user.is_tutor %}
 <div id="addQuestions" class="containerWithBorder" style="min-width: 500px;">
   <div class="row" style="margin-bottom: 5px; height: fit-content;">
     <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
@@ -34,6 +35,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
     </div>
   </div>
 </div>
+{% endif %}
 <!--End Add Question-->
 
 {% if questions %}
