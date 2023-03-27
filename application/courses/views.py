@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm,AssignmentForm,UserUpdateForm
+from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm,SubmitForm,PostForm,MaterialForm,AssignmentForm,UserUpdateForm,UpdateSubmissionForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -123,19 +123,34 @@ def assignment_overview(request,course_id):
 
    return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
 
-def view_submissions(request,course_id,assignment_id):
+def view_submissions(request,course_id,assignment_id,submission_id=None):
    course = get_object_or_404(Course,pk=course_id)
    assignment = get_object_or_404(Assignment,pk=assignment_id)
    submissions = Submission.objects.filter(assignment=assignment)
+   submission_form = UpdateSubmissionForm()
 
    if request.method=='POST':
       if 'assignment_delete_button' in request.POST:
-            assignment.delete()
-            assignment_form = AssignmentForm()
-            assignments = Assignment.objects.filter(course=course)
-            return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
+         assignment.delete()
+         assignment_form = AssignmentForm()
+         assignments = Assignment.objects.filter(course=course)
+         return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form,
+                                                            'submission_form':submission_form})
+      elif 'grade_button' in request.POST:
+         submission_form = UpdateSubmissionForm(data = request.POST)
+         if submission_form.is_valid():
+            grade = submission_form.cleaned_data['grade']
+            submission = get_object_or_404(Submission,pk=submission_id)
+            if grade:
+               submission.grade = grade
+            submission.save()
+            messages.success(request,"You have successfully graded a student assignment!")
+            submission_form = UpdateSubmissionForm()
+            return render(request,'courses/submissions.html',{'course':course,'submissions':submissions,
+                                                              'submission_form':submission_form})
 
-   return render(request,'courses/submissions.html',{'course':course,'submissions':submissions})
+   return render(request,'courses/submissions.html',{'course':course,'submissions':submissions,
+                                                     'submission_form':submission_form})
 
 
 def submit_assignment(request,course_id,assignment_id):

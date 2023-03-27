@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from courses.models import NewUser,Student,Question,Answer,Submission,Notice,Material,Assignment
 from django.db import transaction
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your forms here.
 
@@ -78,6 +79,13 @@ class SubmitForm(forms.ModelForm):
     class Meta():
         model = Submission
         fields = ['file_submission']
+        
+class UpdateSubmissionForm(forms.ModelForm):
+    grade = forms.IntegerField(required=False,validators=[MaxValueValidator(100),MinValueValidator(1)],
+                               widget=forms.NumberInput(attrs={'style': 'width:7ch'}))
+    class Meta():
+        model = Submission
+        fields = ['grade']
 
 class AssignmentForm(forms.ModelForm):
     name = forms.CharField(label='Assignment title:', widget=forms.TextInput(attrs={'class':'form-control'}))

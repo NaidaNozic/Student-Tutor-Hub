@@ -119,6 +119,7 @@ class Submission(models.Model):
     assignment = models.ForeignKey(Assignment,related_name='assignment_submission',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     file_submission = models.FileField(upload_to='submissions')
+    grade = models.IntegerField(null=True,blank=True)
 
     def __str__(self):
         return 'Submitted '+self.assignment.name+' by '+self.student.user.username

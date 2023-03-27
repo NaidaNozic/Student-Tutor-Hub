@@ -2,20 +2,43 @@
 
 {% block content_courses %}
 
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
 {% if course %}
 
 <div class="card" style="top: 50px; width: 100%;border: none; background-color: transparent; margin-bottom:5%;">
     <div style="width: 150px; margin-left: auto; margin-right: auto;">
+    {% if user.is_tutor %}
+      <a href="{% url 'tutor_course' course_id=course.pk %}">
+        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
+      </a>
+    {% else %}
       <a href="{% url 'course' course_id=course.pk %}">
         <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
       </a>
+    {% endif %}
     </div>
     <div class="card-body ">
+    {% if user.is_student %}
       <a class="hoverText" href="{% url 'course' course_id=course.pk %}" style="text-decoration: none; color: black;">
         <h1 class="card-title" style="text-align: center;">
         {{course.name}}
         </h1>
       </a>
+    {% else %}
+    <a class="hoverText" href="{% url 'tutor_course' course_id=course.pk %}" style="text-decoration: none; color: black;">
+        <h1 class="card-title" style="text-align: center;">
+        {{course.name}}
+        </h1>
+      </a>
+    {% endif %}
     </div>
 </div>
 
@@ -30,6 +53,8 @@
                 <th scope="col">Submission</th>
                 <th scope="col">Student</th>
                 <th scope="col">Upload Date</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Input grade</th>
                 </tr>
             </thead>
         
@@ -43,7 +68,23 @@
                             target="_blank">Download</a></td>
                         <td>{{submission.student.user.username}}</td>
                         <td>{{submission.created_at}}</td>
-        
+
+                        {% if submission.grade %}
+                        <td>{{submission.grade}}</td>
+                        {% else %}
+                        <td>Not graded</td>
+                        {% endif %}
+
+                        <td>
+                            <form enctype="multipart/form-data"
+                                action="{% url 'view_submissions' course_id=course.pk assignment_id=submission.assignment.pk submission_id=submission.pk %}" method="POST">
+                                {% csrf_token %}
+                                <p style="font-size: large;"> <label >{{ submission_form.grade.label_tag }}</label> <br></p>
+                                <p>{{ submission_form.grade }}</p>
+                                <button type="submit" class="btn btn-primary btn-sm" name="grade_button">Submit</button>
+                            </form>
+                        </td>
+
                     </tr>
                 {% endfor%}
         
