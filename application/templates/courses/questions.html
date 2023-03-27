@@ -2,7 +2,7 @@
 
 
 {% block courseContent%}
-
+{% load static %}
 <!--List of Questions-->
 <div id="questions" class="container" style="width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
@@ -43,8 +43,8 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
-    <div style="display: inline-block; width: auto; height: fit-content; margin: 10px 0 0 0;">
-      <i class="fa-solid fa-circle-user fa-2x"></i>
+    <div style="width: auto; height: fit-content;">
+      <img src="{% static 'img/tutor.png' %}" style="height: 45px; display: inline-block; position: relative; top: 5px">
     </div>
     <div style=" height: fit-content; padding: 0;width:auto;display:inline-block">
       <p style="margin: 5px; text-align: left;">{{ question.user.username }}<br>
