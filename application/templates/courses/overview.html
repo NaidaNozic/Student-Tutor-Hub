@@ -14,6 +14,60 @@
 </div>
   
   <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
-             opacity: 1; margin-top: 0; margin-bottom: 6%; height: 2px;">
+             opacity: 1; margin-top: 0; margin-bottom: 4%; height: 2px;">
+
+    {% if course %}
+
+    <h2 style="color: rgb(81 144 181); display: flex; justify-content: center;">{{course.name}}</h2>
+
+    <div class="container" style="width: 80%; margin-top: 3%;">
+
+        <div class="row">
+            <div class="col-7">
+                <h4 style="margin-left: 4%;">About this course</h4>
+                <hr>
+                <div style="background-color: white; border-radius: 15px; padding: 25px; border: 2px solid lightgray;">
+                    <p>{{course.overview}}</p>
+                </div>
+            </div>
+
+            <div class="col-5" style="height: 200px;">
+
+                <div style="display: flex; justify-content: center;">
+                    <h5 style="background-color: rgb(206 50 50); color: white; padding: 10px;
+                               border-radius: 10px;">Key information</h5>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <div style="margin-left: 20%; margin-top: 10%;">
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Course content:</span>
+                                <br>
+                                {{course.summary}}</p>
+                        </div>
+                        <br>
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Tutors: </span>
+                                {% if tutors %}
+                                    {% for tutor in tutors %}
+                                        <br>{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    {% endif %}
+    
+    <div style="height: 150px;"></div>
 
 {% endblock %}

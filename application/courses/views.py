@@ -103,8 +103,9 @@ def view_assignments(request,course_id):
 
 def overview(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
+   tutors = Tutor.objects.filter(course=course)
    
-   return render(request,'courses/overview.html',{'course':course})
+   return render(request,'courses/overview.html',{'course':course,'tutors':tutors})
 
 def assignment_overview(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
