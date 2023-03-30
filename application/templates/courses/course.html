@@ -20,7 +20,7 @@
   <div class="col-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
 
     <!--Course Image-->
-    <div class="card" style="width: 70%; height: 20%; margin-top: 15%; 
+    <div class="card" style="width: 70%; margin-top: 15%; 
                              margin-left: auto; margin-right: auto; border: none;">
       <img src="{{course.image.url}}" class="card-img-top" style="border-radius: 0%;" alt="Cover">
 
@@ -31,8 +31,8 @@
     </div>
     <!--End Course Image-->
 
-    <div class="nav flex-column" style="margin-top: 20%; width: 100%;">
-      <a class="nav-link hoverMeni" href="#" style="color: black;">
+    <div class="nav flex-column" style="margin-top: 5%; width: 100%;">
+      <a class="nav-link hoverMeni" href="{% url 'overview' course_id=course.pk %}" style="color: black;">
         <span style="margin-right: 5px; margin-left: 50px;"></span>Overview
       </a>
       <hr style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;">

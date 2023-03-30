@@ -12,6 +12,7 @@ urlpatterns = [
     path('tutor_course/<int:course_id>/questions/<int:question_id>',views.view_questions_tutor,name='view_questions_tutor'),
     path('tutor_course/<int:course_id>/<int:post_id>',views.view_tutor_course,name='tutor_course'),
     path('course/<int:course_id>',views.view_course,name='course'),
+    path('course/<int:course_id>/overview',views.overview,name='overview'),
     path('course/<int:course_id>/questions',views.view_questions_tutor,name='view_questions_tutor'),
     path('course/<int:course_id>/questions/<int:question_id>',views.view_questions_tutor,name='view_questions_tutor'),
     path('course/<int:course_id>/questions/<int:question_id>/<int:answer_id>',views.view_questions_tutor,name='view_questions_tutor'),
