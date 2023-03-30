@@ -1,6 +1,7 @@
-{% extends 'courses/dashboard.html' %}
+{% extends 'courses/course.html' %}
+{% load static %}
 
-{% block content_courses %}
+{% block courseContent %}
 
 {% if messages %}
     {% for message in messages %}
@@ -12,39 +13,18 @@
 {% endif %}
 
 {% if course %}
+    <div style="margin-left: auto; margin-right: auto; width:60%; border: 1px solid lightgrey;
+                margin-top: 7%; padding: 2%; background-color: white;">
+      <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/submission-icon.png' %}" style="width:15%; display: inline-block;">
 
-<div class="card" style="top: 50px; width: 100%;border: none; background-color: transparent; margin-bottom:5%;">
-    <div style="width: 150px; margin-left: auto; margin-right: auto;">
-    {% if user.is_tutor %}
-      <a href="{% url 'tutor_course' course_id=course.pk %}">
-        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
-      </a>
-    {% else %}
-      <a href="{% url 'course' course_id=course.pk %}">
-        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
-      </a>
-    {% endif %}
+      <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block;">
+        <p style="margin-left: 2%;">View and grade student submitted assignments</p>
+      </div>
     </div>
-    <div class="card-body ">
-    {% if user.is_student %}
-      <a class="hoverText" href="{% url 'course' course_id=course.pk %}" style="text-decoration: none; color: black;">
-        <h1 class="card-title" style="text-align: center;">
-        {{course.name}}
-        </h1>
-      </a>
-    {% else %}
-    <a class="hoverText" href="{% url 'tutor_course' course_id=course.pk %}" style="text-decoration: none; color: black;">
-        <h1 class="card-title" style="text-align: center;">
-        {{course.name}}
-        </h1>
-      </a>
-    {% endif %}
-    </div>
-</div>
 
 {% if submissions %}
 
-    <div class="positionCenter">
+    <div class="positionCenter" style="margin-top: 5%;">
         <table class="table table-sm table-bordered" style="font-size:15px;">
             <thead class="table-dark">
                 <tr>
@@ -92,7 +72,10 @@
     
         </table>
     </div>
-
+{% else %}
+    <div class="card" style="border-radius: 0; padding: 10px; margin-top: 2%; width: 60%; margin-left: auto; margin-right: auto;">
+        <p style="font-size: large;">There are no submitted assignments.</p>
+    </div>
 {% endif %}
 
 {% endif %}

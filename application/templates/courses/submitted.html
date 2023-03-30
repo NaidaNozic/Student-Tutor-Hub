@@ -9,11 +9,11 @@
     <br>
     <div style="height: fit-content; position: relative;">
 
-        <div style="background-color: #af1313; height: fit-content;width: fit-content; padding: 8px; border-radius: 5px;
-        display: inline-block; margin: 10px;">
-        <i style="color: white;" class="fa-regular fa-file fa-2x"></i>
+        <div style="height: fit-content;width: fit-content; padding: 8px;display: inline-block; margin: 10px;">
+        {% load static %}
+        <img src="{% static 'img/attachment.png' %}" style="height: 45px;">
         </div>
-        <a href="{{ submission.file_submission.url }}" class="verticalCenter" style="font-size:small">{{ submission.file_submission.url }}</a>
+        <a href="{{ submission.file_submission.url }}" class="verticalCenter" style="font-size:small">{{ submission.filename }}</a>
 
     </div>
     <div style="position: absolute; bottom: 18px; right: 18px;">

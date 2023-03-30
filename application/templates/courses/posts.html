@@ -3,6 +3,18 @@
 <div id="posts" class="container" style="width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
+    <div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative;">
+      <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/materials.png' %}"
+           style="width:7%;">
+
+      <div class="col-sm-8 col-md-8 col-lg-8" style="position:absolute; bottom: 12px; display: inline-block;">
+        <h5 style="margin-left: 2%; letter-spacing: 2px;">POSTS AND MATERIALS FOR THE COURSE</h5>
+      </div>
+    </div>
+
+    <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
+               opacity: 1; margin-top: 0; margin-bottom: 6%; height: 2px;">
+
  <!--Post Form-->
  {% if user.is_tutor %}
  <div class="containerWithBorder" style="min-width: 500px;">
@@ -93,11 +105,10 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
         {% for material in materials %}
 
         <div class="cols-sm-10 col-md-10 col-lg-10" 
-        style="height: fit-content; position: relative; min-width: 300px; max-width: fit-content;
+             style="height: fit-content; position: relative; min-width: 300px; max-width: fit-content;
                padding: 0px; margin-left: 15px; border: 1px solid #8080807d; border-radius: 5px;">
 
-          <div style="height: fit-content; border-radius: 5px;
-          display: inline-block; margin: 10px;">
+          <div style="height: fit-content; border-radius: 5px; display: inline-block; margin: 10px;">
             <img src="{% static 'img/attachment.png' %}" style="height: 45px;">
           </div>
           <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.filename }}</a>

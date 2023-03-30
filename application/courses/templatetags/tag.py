@@ -26,13 +26,31 @@ def getAssignments(course):
     return assignments
 
 @register.simple_tag
-def getSubmittedAssignments(user):
+def getSubmissionsByUser(user):
 
     student = get_object_or_404(Student,user=user)
-    submission_list = Submission.objects.filter(student=student)
-    submissions = [x.assignment for x in submission_list]
+    submissions = Submission.objects.filter(student=student)
 
     return submissions
+
+@register.simple_tag
+def getAssignmentsBySubmissions(submissions):
+
+    assignment_list = [x.assignment for x in submissions]
+
+    return assignment_list
+
+@register.filter
+def getGrade(list, assignment):
+
+    for s in list:
+        if s.assignment.pk is assignment.pk:
+            if s.grade is None:
+                return 'Not graded'
+            else:
+                return s.grade
+
+    return 'Not graded'
 
 @register.simple_tag
 def getStudent(user):
@@ -45,3 +63,13 @@ def getTutor(user):
 
     tutor = get_object_or_404(Tutor,user=user)
     return tutor
+
+@register.simple_tag
+def getSubmittedAssignments(user):
+
+    student = get_object_or_404(Student,user=user)
+    submission_list = Submission.objects.filter(student=student)
+    submissions = [x.assignment for x in submission_list]
+
+    return submissions
+

@@ -1,40 +1,31 @@
-{% extends 'courses/dashboard.html' %}
+{% extends 'courses/course.html' %}
 
-{% block content_courses %}
+{% block courseContent %}
+{% load static %}
+
+<div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative; margin-bottom: 5px;">
+  <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/submitted.png' %}"
+       style="width:8%;">
+
+  <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 5px;">
+    <h5 style="margin-left: 4%; letter-spacing: 2px;">SUBMITTED ASSIGNMENTS</h5>
+  </div>
+</div>
+
+<hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
+           opacity: 1; margin-top: 0; margin-bottom: 4%; height: 2px;">
 
 {% if course %}
 
-<div class="card" style="top: 50px; width: 100%;border: none; background-color: transparent; margin-bottom:5%;">
-    <div style="width: 150px; margin-left: auto; margin-right: auto;">
-    {% if user.is_student %}
-      <a href="{% url 'course' course_id=course.pk %}">
-        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
-      </a>
-    {% else %}
-      <a href="{% url 'tutor_course' course_id=course.pk %}">
-        <img src="{{course.image.url}}" class="card-img-top courseCover" alt="Cover">
-      </a>
-    {% endif %}
-    </div>
-    <div class="card-body ">
-      {% if user.is_student %}
-      <a class="hoverText" href="{% url 'course' course_id=course.pk %}" style="text-decoration: none; color: black;">
-        <h1 class="card-title" style="text-align: center;">
-        {{course.name}}
-        </h1>
-      </a>
-    {% else %}
-    <a class="hoverText" href="{% url 'tutor_course' course_id=course.pk %}" style="text-decoration: none; color: black;">
-        <h1 class="card-title" style="text-align: center;">
-        {{course.name}}
-        </h1>
-      </a>
-    {% endif %}
-    </div>
-</div>
+  <div class="row" style="width:60%; margin-left: auto; margin-right: auto; margin-top: 3%; margin-bottom: 3%;">
+      {% block submissionBlock %}
+      <div class="card" style="border-radius: 0; padding: 10px;">
+        <p style="font-size: large;">Choose an assignment to view details.</p>
+      </div>
+      {% endblock %}
+  </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-md-8 col-lg-6">
+  <div class="row positionCenter" style="margin-top: 2%; margin-bottom: 3%;">
         <table class="table table-sm table-bordered" style="font-size:15px;">
             <thead class="table-dark">
               <tr>
@@ -44,6 +35,7 @@
                 <th scope="col">Upload Date</th>
                 <th scope="col">Assignment</th>
                 <th scope="col">Status</th>
+                <th scope="col">Grade</th>
               </tr>
             </thead>
       
@@ -59,8 +51,9 @@
                              target="_blank">Download</a></td>
 
                     {% load tag %}
-                    {% getSubmittedAssignments user as submissions %}
-                    {% if assignment in submissions %}
+                    {% getSubmissionsByUser user as submissions %}
+                    {% getAssignmentsBySubmissions submissions as assignment_list %}
+                    {% if assignment in assignment_list %}
                       <td>
                         <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
                           <button style="all: unset; cursor: pointer;" name="submitted_button" 
@@ -70,9 +63,14 @@
                           </button>
                         </form>
                       </td>
+
+                      <td>{{ submissions|getGrade:assignment }}</td>
+
+                      
                     {% else %}
                       <td><a class="hoverTextRed" href="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}"
                         style="text-decoration: none; color: darkblue;">Submit</a></td>
+                        <td>Not graded</td>
                     {% endif %}
       
                   </tr>
@@ -81,15 +79,7 @@
             </tbody>
   
         </table>
-    </div>
 
-    <div class="col-sm-12 col-md-4 col-lg-6">
-      {% block submissionBlock %}
-      <div class="card" style="border-radius: 0; padding: 10px;">
-        <p style="font-size: large;">Choose an assignment to view details.</p>
-      </div>
-      {% endblock %}
-    </div>
   </div>
 
 {% endif %}

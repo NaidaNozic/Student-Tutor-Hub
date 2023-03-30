@@ -124,6 +124,10 @@ class Submission(models.Model):
     def __str__(self):
         return 'Submitted '+self.assignment.name+' by '+self.student.user.username
 
+    @property
+    def filename(self):
+        return os.path.basename(self.file_submission.name)
+
     def delete(self, *args, **kwargs):
         self.file_submission.delete()
         super().delete(*args, **kwargs)
