@@ -6,7 +6,7 @@
 
 <div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative; margin-bottom: 5px;">
     <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/information.png' %}"
-         style="width:6%;">
+         style="width:6%;" title="info">
   
     <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 5px;">
       <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE OVERVIEW</h5>
@@ -47,6 +47,7 @@
                                 {{course.summary}}</p>
                         </div>
                         <br>
+                        {% if tutors %}
                         <div style="display: flex; flex-direction: row;">
                             <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
                             <p style="display: inline; font-weight:300;">
@@ -57,6 +58,15 @@
                                     {% endfor %}
                                 {% endif %}
                             <br>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Number of enrolled students:</span>
+                                <br>
+                                {{course.student_number}}</p>
                         </div>
                     </div>
                 </div>

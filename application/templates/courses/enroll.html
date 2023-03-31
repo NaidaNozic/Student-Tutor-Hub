@@ -1,0 +1,176 @@
+{% extends 'courses/dashboard.html' %}
+
+{% block content_courses %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% load static %}
+
+{% if course %}
+<style>
+  body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .hoverMeni:hover{
+    background-color: rgb(175, 173, 173) !important;
+  }
+</style>
+
+<div class="row no-gutters">
+
+  <div class="col-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
+
+    <!--Course Image-->
+    <div class="card" style="width: 70%; margin-top: 15%; 
+                             margin-left: auto; margin-right: auto; border: none;">
+      <img src="{{course.image.url}}" class="card-img-top" style="border-radius: 0%;" alt="Cover">
+
+        <div class="card-body" style="border: 1px solid gray; padding: 10px 0px 10px 0px;">
+          <h4 class="card-title courseDetails" 
+              style="text-align: center; color: black; letter-spacing: 2px; font-weight: lighter;">{{course.name}}</h4>
+        </div>
+    </div>
+    <!--End Course Image-->
+
+    <div class="nav flex-column" style="margin-top: 5%; width: 100%;">
+      <p class="nav-link" style="color: black; margin-bottom: 0px;">
+        <span style="margin-right: 5px; margin-left: 50px;"></span>Overview
+      </p>
+      <hr style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;">
+      {% if user.is_student %}
+      <a class="nav-link hoverMeni" href="#" style="color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-house" style="margin-right: 5px; margin-left: 50px;"></i>Posts
+      </a>
+      {% else %}
+      <a class="nav-link hoverMeni" href="#" style="color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-house" style="margin-right: 5px; margin-left: 50px;"></i>Posts
+      </a>
+      {% endif %}
+      <a class="nav-link hoverMeni" href="#" style="color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-question" style="margin-right: 5px; margin-left: 50px;"></i>Questions
+      </a>
+      <a class="nav-link hoverMeni" href="#" style="color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fa-solid fa-list-check" style="margin-right: 5px; margin-left: 50px;"></i>Assignments
+      </a>
+    </div>
+  </div>
+
+  <!--OVERVIEW SECTION-->
+  <div class="col-10 no-gutters" style="width: 80%; height: 100vh; overflow: scroll;">
+
+    <div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative; margin-bottom: 5px;">
+        <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/information.png' %}"
+            style="width:6%;" title="info">
+    
+        <div class="col-sm-6 col-md-6 col-lg-6" style="display: inline-block; position:absolute; bottom: 5px;">
+        <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE OVERVIEW</h5>
+        </div>
+
+        {% if user.is_student %}
+        <form action="{% url 'course' course_id=course.pk %}" method="POST">
+            {% csrf_token %}
+            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning" 
+                    style="position: absolute; right: 5px; bottom: 5px; border: 1px solid black;"
+                    name="enroll_button">Enroll me</button>
+        </form>
+        {% endif %}
+    </div>
+  
+    <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
+             opacity: 1; margin-top: 0; margin-bottom: 4%; height: 2px;">
+
+
+    <h2 style="color: rgb(81 144 181); display: flex; justify-content: center;">{{course.name}}</h2>
+
+    <div class="container" style="width: 80%; margin-top: 3%;">
+
+        <div class="row">
+            <div class="col-7">
+                <h4 style="margin-left: 4%;">About this course</h4>
+                <hr>
+                <div style="background-color: white; border-radius: 15px; padding: 25px; border: 2px solid lightgray;">
+                    <p>{{course.overview}}</p>
+                </div>
+            </div>
+
+            <div class="col-5" style="height: 200px;">
+
+                <div style="display: flex; justify-content: center;">
+                    <h5 style="background-color: rgb(206 50 50); color: white; padding: 10px;
+                               border-radius: 10px;">Key information</h5>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <div style="margin-left: 20%; margin-top: 10%;">
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Course content:</span>
+                                <br>
+                                {{course.summary}}</p>
+                        </div>
+                        <br>
+                        {% if tutors %}
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Tutors: </span>
+                                {% if tutors %}
+                                    {% for tutor in tutors %}
+                                        <br>{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            <br>
+                        </div>
+                        {% endif %}
+                        <br>
+                        <div style="display: flex; flex-direction: row;">
+                            <i class="fa-regular fa-circle" style="display: inline; margin-right: 2%; padding: 6px;"></i>
+                            <p style="display: inline; font-weight:300;">
+                                <span style="font-weight: bold;">Number of enrolled students:</span>
+                                <br>
+                                {{course.student_number}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <div style="height: 150px;"></div>
+  </div>
+
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Your cannot view this page without enrollment.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endif %}
+
+{% endblock %}

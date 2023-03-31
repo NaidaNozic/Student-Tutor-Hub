@@ -73,3 +73,7 @@ def getSubmittedAssignments(user):
 
     return submissions
 
+@register.simple_tag
+def getTutorsOfCourse(course):
+    tutors = Tutor.objects.filter(course=course)
+    return tutors

@@ -13,6 +13,8 @@ class Course(models.Model):
     summary = models.CharField(max_length=500)
     image = models.ImageField(upload_to="courses_images",default="courses_images/default.jpg",blank=True)
     overview = models.TextField(null=True,blank=True)
+    max_students = models.IntegerField(default=100)
+    student_number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

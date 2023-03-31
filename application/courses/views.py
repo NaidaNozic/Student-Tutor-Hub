@@ -4,7 +4,7 @@ from courses.forms import NewUserForm,StudentProfileForm,QuestionForm,AnswerForm
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer,NewUser
+from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer,NewUser,StudentCourse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 
@@ -282,6 +282,26 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
 
 def view_course(request,course_id,question_id=None):
    course = get_object_or_404(Course,pk=course_id)
+
+   if request.method=='POST':
+      if 'enroll_button' in request.POST:
+         if (course.student_number + 1) > course.max_students:
+            messages.warning(request,"There is no study places left!")
+            tutors = Tutor.objects.filter(course=course)
+            return render(request,"courses/enroll.html",{'course':course,'tutors':tutors})
+         else:
+            student_course = StudentCourse.objects.create(course=course,student=request.user.Student)
+            course.student_number = course.student_number+1
+            student_course.save()
+            course.save()
+            notices = Notice.objects.filter(course=course)
+            return render(request,"courses/course.html",{'course':course,'notices':notices})
+
+   student_courses = StudentCourse.objects.filter(course = course,student = request.user.Student) 
+   if student_courses.exists() is False:
+      tutors = Tutor.objects.filter(course=course)
+      return render(request,"courses/enroll.html",{'course':course,'tutors':tutors})
+
    notices = Notice.objects.filter(course=course)
 
    return render(request,"courses/course.html",{'course':course,'notices':notices})
