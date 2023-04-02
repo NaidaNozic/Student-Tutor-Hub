@@ -107,6 +107,22 @@ def overview(request,course_id):
    
    return render(request,'courses/overview.html',{'course':course,'tutors':tutors})
 
+def view_students(request,course_id):
+   course = get_object_or_404(Course,pk=course_id)
+
+   if request.method == 'POST':
+      if 'remove_student_button' in request.POST:
+         student_id = request.POST.get('remove_student_button')
+         student = get_object_or_404(Student,pk=student_id)
+         student_course_objects = StudentCourse.objects.filter(course=course,student=student)
+         student_course_objects.delete()
+         messages.success(request, 'Student removed successfully!')
+
+   student_course_objects = StudentCourse.objects.filter(course=course)
+   students = [x.student for x in student_course_objects]
+
+   return render(request,'courses/students.html',{'course':course,'students':students})
+
 def assignment_overview(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
    assignments = Assignment.objects.filter(course=course)

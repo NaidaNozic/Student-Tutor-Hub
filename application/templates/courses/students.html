@@ -1,0 +1,68 @@
+{% extends 'courses/course.html' %}
+
+
+{% block courseContent %}
+{% load static %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative; margin-bottom: 5px;">
+    <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/students-icon.png' %}"
+         style="width:8%;">
+  
+    <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 12px;">
+      <h5 style="margin-left: 2%; letter-spacing: 2px;">ENROLLED STUDENTS</h5>
+    </div>
+</div>
+  
+  <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
+             opacity: 1; margin-top: 0; margin-bottom: 6%; height: 2px;">
+
+<div class="positionCenter" style="margin-top: 100px;">
+    {% if students %}
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Age</th>
+            <th scope="col">Phone</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+        <tr>
+            <td scope="row">{{ forloop.counter }}</td>
+            <td>{{student.user.first_name}}</td>
+            <td>{{student.user.last_name}}</td>
+            <td>{{student.user.username}}</td>
+            <td>{{student.user.email}}</td>
+            <td>{{student.age}}</td>
+            <td>{{student.phone}}</td>
+            <td>
+                <form action="{% url 'view_students' course_id=course.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" name="remove_student_button" value="{{student.pk}}">Remove</button>
+                  </form>
+            </td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h2 style="text-align: center;">There are no students enrolled in this course!</h2>
+    {% endif %}
+</div>
+
+{% endblock %}

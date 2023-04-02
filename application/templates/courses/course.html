@@ -51,6 +51,11 @@
       <a class="nav-link hoverMeni" href="{% url 'assignment_overview' course_id=course.pk %}" style="color: black;">
         <i class="fa-solid fa-list-check" style="margin-right: 5px; margin-left: 50px;"></i>Assignments
       </a>
+      {% if user.is_tutor %}
+      <a class="nav-link hoverMeni" href="{% url 'view_students' course_id=course.pk %}" style="color: black;">
+        <i class="fa-solid fa-users" style="margin-right: 5px; margin-left: 50px;"></i>Students
+      </a>
+      {% endif %}
     </div>
   </div>
 
