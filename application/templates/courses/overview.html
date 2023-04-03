@@ -8,9 +8,18 @@
     <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/information.png' %}"
          style="width:6%;" title="info">
   
-    <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 5px;">
+    <div class="col-sm-6 col-md-6 col-lg-6" style="display: inline-block; position:absolute; bottom: 5px;">
       <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE OVERVIEW</h5>
     </div>
+
+    {% if user.is_student %}
+        <form action="{% url 'overview' course_id=course.pk %}" method="POST">
+            {% csrf_token %}
+            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning" 
+                    style="position: absolute; right: 5px; bottom: 5px; border: 1px solid black; width: fit-content;"
+                    name="withdraw_button" value="{{user.pk}}" type="submit">Withdraw from course</button>
+        </form>
+    {% endif %}
 </div>
   
   <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;

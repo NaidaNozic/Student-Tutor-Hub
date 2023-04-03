@@ -56,6 +56,12 @@ def register_student(request):
 
    return render(request,'authenticate/register_student.html',{'user_form':user_form,'student_form':student_form})
 
+def my_courses(request):
+   student_courses = StudentCourse.objects.filter(student=request.user.Student)
+   courses=[x.course for x in student_courses]
+
+   return render(request,"courses/all_courses.html",{'all_courses':courses})
+
 def dashboard(request):
    newUser=request.user
    if newUser.is_tutor:
@@ -103,6 +109,18 @@ def view_assignments(request,course_id):
 
 def overview(request,course_id):
    course = get_object_or_404(Course,pk=course_id)
+
+   if request.method=='POST':
+      if 'withdraw_button' in request.POST:
+         user_id = request.POST.get('withdraw_button')
+         newUser = get_object_or_404(NewUser,pk=user_id)
+         student_course_objects = StudentCourse.objects.filter(course=course,student=newUser.Student)
+         student_course_objects.delete()
+         messages.success(request,'Successfull withdraw!')
+
+         tutors = Tutor.objects.filter(course=course)
+         return render(request,"courses/enroll.html",{'course':course,'tutors':tutors})
+
    tutors = Tutor.objects.filter(course=course)
    
    return render(request,'courses/overview.html',{'course':course,'tutors':tutors})
@@ -311,6 +329,7 @@ def view_course(request,course_id,question_id=None):
             student_course.save()
             course.save()
             notices = Notice.objects.filter(course=course)
+            messages.success(request,'Successfully enrolled!')
             return render(request,"courses/course.html",{'course':course,'notices':notices})
 
    student_courses = StudentCourse.objects.filter(course = course,student = request.user.Student) 
