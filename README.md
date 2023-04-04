@@ -10,6 +10,7 @@ information related to lectures of a particular course.</p>
 <p>STUDENT</p>
 <ol>
 <li>Enroll to courses</li>
+<li>Withdraw from courses</li>
 <li>View course materials, posts, assignments</li>
 <li>Submit finished assignments and view grades</li>
 <li>Ask and answer questions in the Q&A section</li>
@@ -25,6 +26,7 @@ information related to lectures of a particular course.</p>
 <li>Post questions and answers in Q&A section</li>
 <li>View and edit profile</li>
 <li>Login</li>
+<li>Remove students from courses</li>
 </ol>
 
 
