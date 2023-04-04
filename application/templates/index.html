@@ -2,7 +2,12 @@
 
 {% block headerContent %}
 {% load static %}
-<!-- Header Start -->      
+<!-- Header Start --> 
+<style>
+  body{
+  overflow-x: hidden;
+}
+</style>     
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
@@ -119,24 +124,25 @@
     <h2>Our most popular courses</h2>
   </div>
 
-  <div id="courses" class="row" style="height: 500px; display: flex; justify-content: center; background-color: #00024f;">
+  <div id="courses" class="row" style="height: 500px; display: flex; justify-content: center; 
+                                       background-color: #00024f;">
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; 
+    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; height: 100%;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
-          <img class="card-img-top" src="media/courses_images/default.jpg" alt="Card image" style="width: 100%;padding: 10px;">
-          <div class="card-body">
+          <img class="card-img-top" src="media/courses_images/maths.jpg" alt="Card image" style="width: 100%;padding: 10px;">
+          <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
             <h4 class="card-title">Mathematic</h4>
             <p class="card-text">Introduction to mathematics,Functions,equations and inequations,absolute values, Trigonometry</p>
           </div>
       </div>
     </div>
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; 
+    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 100%;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
           <img class="card-img-top" src="media/courses_images/default.jpg" alt="Card image" style="width: 100%;padding: 10px;">
-          <div class="card-body">
+          <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
             <h4 class="card-title">Instroduction to programming</h4>
             <p class="card-text">The programming language: C.
               <span><br></span>
@@ -145,11 +151,11 @@
       </div>
     </div>
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; 
+    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 100%;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
           <img class="card-img-top" src="media/courses_images/mathematic.jpg" alt="Card image" style="width: 100%;padding: 10px;">
-          <div class="card-body">
+          <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
             <h4 class="card-title">Algebra</h4>
             <p class="card-text">Fundamentals of modern geometry,
                definitions of objects such as lines, planes and rotations.</p>

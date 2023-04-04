@@ -94,7 +94,8 @@ class Question(models.Model):
 class Answer(models.Model):
     user = models.ForeignKey(NewUser,related_name='user_answer',on_delete=models.CASCADE)
     question = models.ForeignKey(Question,related_name='answer_question',on_delete=models.CASCADE)
-    text = models.CharField(max_length=550)
+    text = models.TextField()
+    #text = models.CharField(max_length=550)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

@@ -59,7 +59,9 @@ class QuestionForm(forms.ModelForm):
         fields = ['title','text']
 
 class AnswerForm(forms.ModelForm):
-    text = forms.CharField(label='Text:', widget=forms.TextInput(attrs={'class':'form-control'}))
+    text = forms.CharField(label='Text:', widget=forms.Textarea(attrs={ "rows":5,"cols":60,
+                                                                        "class":"form-control",
+                                                                        "id":"id_text2"}))
 
     class Meta():
         model = Answer

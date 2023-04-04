@@ -3,15 +3,6 @@
 
 {% block courseContent %}
 
-{% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{{message}}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-{% endif %}
-
 {% if course %}
     <div style="margin-left: auto; margin-right: auto; width:60%; border: 1px solid lightgrey;
                 margin-top: 7%; padding: 2%; background-color: white;">
