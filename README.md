@@ -38,7 +38,7 @@ information related to lectures of a particular course.</p>
 <img src="images/assignments-student.jpg">
 
 <h4>Student: View Q&A section</h4>
-<img src="images/questions.jpg">
+<img src="images/questions1.jpg">
 
 <h4>Student: View posts</h4>
 <img src="images/answers.jpg">
