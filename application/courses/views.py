@@ -6,7 +6,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Course,Notice,Question,Student,Assignment,Submission,TutorCourse,Tutor,Material,Answer,NewUser,StudentCourse
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -26,12 +28,17 @@ def user_login(request):
    else:
       return render(request,'authenticate/login.html',{})
 
+@login_required
 def user_logout(request):
    logout(request)
    messages.success(request,"Your were logged out!")
    return redirect("home")
 
 def register_student(request):
+
+   if request.user.is_tutor:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    if request.method=="POST":
       user_form = NewUserForm(data = request.POST)
       student_form = StudentProfileForm(data = request.POST)
@@ -56,12 +63,18 @@ def register_student(request):
 
    return render(request,'authenticate/register_student.html',{'user_form':user_form,'student_form':student_form})
 
+@login_required
 def my_courses(request):
+
+   if request.user.is_tutor:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    student_courses = StudentCourse.objects.filter(student=request.user.Student)
    courses=[x.course for x in student_courses]
 
    return render(request,"courses/all_courses.html",{'all_courses':courses})
 
+@login_required
 def dashboard(request):
    newUser=request.user
    if newUser.is_tutor:
@@ -72,7 +85,9 @@ def dashboard(request):
       courses = Course.objects.all()
    return render(request,"courses/all_courses.html",{'all_courses':courses})
 
+@login_required
 def profile(request,pk):
+
    user_form = UserUpdateForm()
 
    if request.method=='POST':
@@ -101,13 +116,23 @@ def profile(request,pk):
 
    return render(request,'courses/profile.html',{'user_form':user_form})
 
+@login_required
 def view_assignments(request,course_id):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
    assignments = Assignment.objects.filter(course=course)
 
    return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
 
+@login_required
 def overview(request,course_id):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
 
    if request.method=='POST':
@@ -125,7 +150,14 @@ def overview(request,course_id):
    
    return render(request,'courses/overview.html',{'course':course,'tutors':tutors})
 
+@login_required
 def view_students(request,course_id):
+
+   if request.user.is_student:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+   elif is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
 
    if request.method == 'POST':
@@ -141,7 +173,12 @@ def view_students(request,course_id):
 
    return render(request,'courses/students.html',{'course':course,'students':students})
 
+@login_required
 def assignment_overview(request,course_id):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
    assignments = Assignment.objects.filter(course=course)
    assignment_form = AssignmentForm()
@@ -163,7 +200,14 @@ def assignment_overview(request,course_id):
 
    return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
 
+@login_required
 def view_submissions(request,course_id,assignment_id,submission_id=None):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+   elif request.user.is_student:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
    assignment = get_object_or_404(Assignment,pk=assignment_id)
    submissions = Submission.objects.filter(assignment=assignment)
@@ -192,8 +236,13 @@ def view_submissions(request,course_id,assignment_id,submission_id=None):
    return render(request,'courses/submissions.html',{'course':course,'submissions':submissions,
                                                      'submission_form':submission_form})
 
-
+@login_required
 def submit_assignment(request,course_id,assignment_id):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+   elif request.user.is_tutor:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
    #za taj assignment se ovdje radi upload i brisanje submission-a
    student = request.user.Student
    course = get_object_or_404(Course,pk=course_id)
@@ -226,7 +275,14 @@ def submit_assignment(request,course_id,assignment_id):
    return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
                                                            'assignment':assignment,'submit_form':submit_form})
 
+@login_required
 def view_tutor_course(request,course_id,post_id=None):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+   elif request.user.is_student:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
    notices = Notice.objects.filter(course=course)
    post_form = PostForm()
@@ -263,7 +319,12 @@ def view_tutor_course(request,course_id,post_id=None):
                                   'post_form':post_form,'material_form':material_form})
 
 #For both tutors and students
+@login_required
 def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
+
+   if is_enrolled(request.user, course_id) is False:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
    questions = Question.objects.filter(course=course)
 
@@ -313,8 +374,25 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
    return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                                       'question_form':question_form,'answer_form':answer_form})
 
+def is_enrolled(user, course_id):
+   course = get_object_or_404(Course,pk=course_id)
 
+   if user.is_tutor:
+      tutor_courses = TutorCourse.objects.filter(course=course,tutor=user.Tutor)
+
+      return tutor_courses.exists()
+   else:
+      student_courses = StudentCourse.objects.filter(course=course,student=user.Student)
+
+      return student_courses.exists()
+      
+
+@login_required
 def view_course(request,course_id,question_id=None):
+
+   if request.user.is_tutor:
+      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
+
    course = get_object_or_404(Course,pk=course_id)
 
    if request.method=='POST':
