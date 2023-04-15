@@ -36,9 +36,6 @@ def user_logout(request):
 
 def register_student(request):
 
-   if request.user.is_tutor:
-      return HttpResponse('<html><body><h2 style="font-weight: lighter">Your do not have access to view this page!</h2><body></html>')
-
    if request.method=="POST":
       user_form = NewUserForm(data = request.POST)
       student_form = StudentProfileForm(data = request.POST)
