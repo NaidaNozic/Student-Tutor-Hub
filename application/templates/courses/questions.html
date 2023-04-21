@@ -34,10 +34,26 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
         <form action="{% url 'view_questions_tutor' course_id=course.pk %}" method="POST" style="margin: 25px;">
           {% csrf_token %}
+
         <p> <label>{{ question_form.title.label_tag }}</label>{{ question_form.title }}</p>
+        {% if question_form.title.errors %}
+         <ul class="errorlist">
+          {% for error in question_form.title.errors %}
+              <li style="color: #ff0000;">{{ error }}</li>
+          {% endfor %}
+         </ul>
+        {% endif %}
+
         <div class="form-group">
         <p> <label >{{ question_form.text.label_tag }}</label> <br>  {{ question_form.text }}</p>
         </div>
+        {% if question_form.text.errors %}
+         <ul class="errorlist">
+          {% for error in question_form.text.errors %}
+              <li style="color: #ff0000;">{{ error }}</li>
+          {% endfor %}
+         </ul>
+        {% endif %}
 
         <div class="float-end mt-2 pt-1" style="margin-bottom: 15px;">
           <button type="submit" class="btn btn-primary btn-sm" name="question_button">Post a question</button>
@@ -120,6 +136,13 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
             <div class="form-group">
             <p> <label >{{ answer_form.text.label_tag }}</label> <br>  {{ answer_form.text }}</p>
             </div>
+            {% if answer_form.text.errors %}
+            <ul class="errorlist">
+              {% for error in answer_form.text.errors %}
+                  <li style="color: #ff0000;">{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
 
             <div class="float-end mt-2 pt-1">
               <button type="submit" class="btn btn-primary btn-sm" name="reply_button">Post the answer</button>

@@ -193,6 +193,11 @@ def assignment_overview(request,course_id):
 
             assignment_form = AssignmentForm()
             assignments = Assignment.objects.filter(course=course)
+            assignment_form = AssignmentForm()
+            return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
+         else:
+            print(assignment_form.errors)
+            messages.warning(request,"Error posting the assignment!")
             return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
 
    return render(request,'courses/assignments.html',{'course':course,'assignments':assignments,'assignment_form':assignment_form})
@@ -299,10 +304,14 @@ def view_tutor_course(request,course_id,post_id=None):
             if file:
                material = Material.objects.create(notice=post,material=file)
                material.save()
+            post_form = PostForm()
+            material_form = MaterialForm()
             return render(request,"courses/course.html",{'course':course,'notices':notices,
                                   'post_form':post_form,'material_form':material_form})
          else:
             print(post_form.errors)
+            return render(request,"courses/course.html",{'course':course,'notices':notices,
+                                  'post_form':post_form,'material_form':material_form})
 
       elif 'delete_post_button' in request.POST:
          notice = get_object_or_404(Notice,pk=post_id)
@@ -338,10 +347,13 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
             question.course = course
             question.user=request.user
             question.save()
+            question_form = QuestionForm()
             return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                   'question_form':question_form,'answer_form':answer_form})
          else:
             print(question_form.errors)
+            return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
 
       elif 'reply_button' in request.POST:
          answer_form = AnswerForm(data = request.POST)
@@ -351,10 +363,14 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
             answer.user = request.user
             answer.question = get_object_or_404(Question,pk=question_id)
             answer.save()
+            answer_form = AnswerForm()
             return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                   'question_form':question_form,'answer_form':answer_form})
          else:
             print(answer_form.errors)
+            messages.warning(request,"Error posting the answer!")
+            return render(request,"courses/questions.html",{'course':course,'questions':questions,
+                                  'question_form':question_form,'answer_form':answer_form})
 
       elif 'delete_question_button' in request.POST:
          question = get_object_or_404(Question,pk=question_id)

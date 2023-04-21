@@ -19,7 +19,6 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
  {% if user.is_tutor %}
  <div class="containerWithBorder" style="min-width: 500px;">
    <div class="row" style="margin-bottom: 5px; height: fit-content;">
-     <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
      <div class="form-outline w-100" style="position: relative;">
 
       <div style="background-color: #24242c;">
@@ -29,8 +28,25 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
  
        <form enctype="multipart/form-data" action="{% url 'tutor_course' course_id=course.pk%}" method="POST" style="margin: 25px;">
          {% csrf_token %}
+
          <p> <label >{{ post_form.name.label_tag }}</label> <br>  {{ post_form.name }}</p>
+         {% if post_form.name.errors %}
+         <ul class="errorlist">
+          {% for error in post_form.name.errors %}
+              <li style="color: #ff0000;">{{ error }}</li>
+          {% endfor %}
+         </ul>
+         {% endif %}
+
          <p> <label >{{ post_form.text.label_tag }}</label> <br>  {{ post_form.text }}</p>
+         {% if post_form.text.errors %}
+         <ul class="errorlist">
+          {% for error in post_form.text.errors %}
+              <li style="color: #ff0000;">{{ error }}</li>
+          {% endfor %}
+         </ul>
+         {% endif %}
+
          <label>{{ material_form.material.label_tag }}</label> <br></p>
          <p>{{ material_form.material }}</p>
  

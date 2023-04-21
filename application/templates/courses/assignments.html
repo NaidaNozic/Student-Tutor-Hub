@@ -46,6 +46,15 @@
           <form enctype="multipart/form-data" action="{% url 'assignment_overview' course_id=course.pk %}" method="POST">
               {% csrf_token %}
               <p style="font-size: large;"> <label >{{ assignment_form.name.label_tag }}</label> <br>{{ assignment_form.name }}</p>
+
+              {% if assignment_form.name.errors %}
+              <ul class="errorlist">
+                {% for error in assignment_form.name.errors %}
+                    <li style="color: #ff0000;">{{ error }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+
               <p style="font-size: large;"> <label >{{ assignment_form.file_assignment.label_tag }}</label> <br></p>
               <p>{{ assignment_form.file_assignment }}</p>
               <button type="submit" class="btn btn-primary" name="assignment_upload_button">Upload</button>
@@ -142,5 +151,6 @@
   {% endif %}
   {% endif %}
 </div>
+<div style="height: 200px;"></div>
 <!--End Assignments-->
 {% endblock %}

@@ -9,7 +9,7 @@ class NewUser(AbstractUser):
     is_tutor = models.BooleanField(default=False)
 
 class Course(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=50)
     summary = models.CharField(max_length=500)
     image = models.ImageField(upload_to="courses_images",default="courses_images/default.jpg",blank=True)
     overview = models.TextField(null=True,blank=True)
@@ -66,6 +66,9 @@ class Notice(models.Model):
     def __str__(self):
         return 'Notice: '+self.name
 
+    class Meta:
+        ordering = ['-created_at']
+
 class Material(models.Model):
     notice = models.ForeignKey(Notice,related_name='material_notice',on_delete=models.CASCADE)
     material = models.FileField(upload_to='materials')
@@ -83,7 +86,7 @@ class Material(models.Model):
 
 class Question(models.Model):
     title = models.CharField(max_length=50)
-    text = models.TextField()
+    text = models.CharField(max_length=600)
     created_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course,related_name='course_question',on_delete=models.CASCADE)
     user = models.ForeignKey(NewUser,related_name='user_question',on_delete=models.CASCADE,null=True, blank=True)
@@ -91,18 +94,23 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-created_at']
+
 class Answer(models.Model):
     user = models.ForeignKey(NewUser,related_name='user_answer',on_delete=models.CASCADE)
     question = models.ForeignKey(Question,related_name='answer_question',on_delete=models.CASCADE)
-    text = models.TextField()
-    #text = models.CharField(max_length=550)
+    text = models.CharField(max_length=500)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return 'Reply from '+self.user.username
 
+    class Meta:
+        ordering = ['-created_at']
+
 class Assignment(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now=True)
     course = models.ForeignKey(Course,related_name='course_assignment',on_delete=models.CASCADE)
     tutor = models.ForeignKey(Tutor,related_name='tutor_assignment',on_delete=models.CASCADE)
