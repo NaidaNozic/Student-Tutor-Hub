@@ -96,12 +96,22 @@ def profile(request,pk):
             email= user_form.cleaned_data.get("email")
             first_name= user_form.cleaned_data.get("first_name")
             last_name= user_form.cleaned_data.get("last_name")
+            phone= user_form.cleaned_data.get("phone")
             if email:
                user.email = email
             if first_name:
                user.first_name = first_name
             if last_name:
                user.last_name = last_name
+            if phone:
+               if request.user.is_tutor:
+                  tutor = get_object_or_404(Tutor,pk=request.user.id)
+                  tutor.phone = phone
+                  tutor.save()
+               else:
+                  student = get_object_or_404(Student,pk=request.user.id)
+                  student.phone = phone
+                  student.save()
             user.save()
             messages.success(request,"Update successful!")
             user_form = UserUpdateForm()
@@ -110,6 +120,7 @@ def profile(request,pk):
 
          else:
             print(user_form.errors.as_data())
+            messages.warning(request,'Error')
 
    return render(request,'courses/profile.html',{'user_form':user_form})
 

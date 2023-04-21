@@ -63,9 +63,14 @@
                                 <span style="font-weight: bold;">Tutors: </span>
                                 {% if tutors %}
                                     {% for tutor in tutors %}
-                                        <br>{{tutor.user.first_name}} {{tutor.user.last_name}}</p>
+                                        <span><br></span>
+                                        <span style="text-decoration: underline;">{{tutor.user.first_name}} {{tutor.user.last_name}}<br>
+                                        </span>
+                                        Email: {{tutor.user.email}} <span><br></span>
+                                        Phone: {{tutor.phone}}
                                     {% endfor %}
                                 {% endif %}
+                            </p>
                             <br>
                         </div>
                         {% endif %}

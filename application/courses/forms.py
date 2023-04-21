@@ -25,6 +25,8 @@ class UserUpdateForm(forms.ModelForm):
     last_name = forms.CharField(required=False, label='Last name:', widget=forms.TextInput(attrs={'class':'form-control'}))
     email = forms.EmailField(required=False, label='Email:', widget=forms.EmailInput(attrs={"placeholder": "etc. name@example.com",
                                                                             "class":"form-control"}))
+    phone = forms.CharField(label='Phone number:', widget=forms.NumberInput(
+                                                   attrs={"placeholder": "etc. 38762878785","class":"form-control"}))
     class Meta():
         model = NewUser
         fields = ['first_name','last_name','email']
