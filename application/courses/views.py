@@ -228,6 +228,7 @@ def view_submissions(request,course_id,assignment_id,submission_id=None):
 
    if request.method=='POST':
       if 'assignment_delete_button' in request.POST:
+         assignment.file_assignment.delete()
          assignment.delete()
          assignment_form = AssignmentForm()
          assignments = Assignment.objects.filter(course=course)
@@ -279,6 +280,7 @@ def submit_assignment(request,course_id,assignment_id):
             return render(request,'courses/assignments_details.html',{'course':course,'assignments':assignments})
       elif 'delete_button' in request.POST:
          submission = Submission.objects.filter(student=student).filter(assignment=assignment)[:1].get()
+         submission.file_submission.delete()
          submission.delete()
          submit_form = SubmitForm()
          return render(request,'courses/submit_assignment.html',{'course':course,'assignments':assignments,
@@ -326,7 +328,11 @@ def view_tutor_course(request,course_id,post_id=None):
 
       elif 'delete_post_button' in request.POST:
          notice = get_object_or_404(Notice,pk=post_id)
-         Material.objects.filter(notice=notice).delete()
+         m1 = Material.objects.filter(notice=notice)
+         if m1.exists() is True:
+            m1 = m1[:1].get()
+            m1.material.delete()
+            m1.delete()
          notice.delete()
          notices = Notice.objects.filter(course=course)
          return render(request,"courses/course.html",{'course':course,'notices':notices,
