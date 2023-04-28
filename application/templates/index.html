@@ -51,6 +51,14 @@
       <h1>AcademicAce</h1>
       <hr style="width: 460px; height:2px; background-color: white; opacity: 0.99;">
       <p>A Student-Tutor Hub</p>
+      <br>
+      <button type="button" class="btn btn-light btn-lg">
+        {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'dashboard' %}">Join the hub</a>
+        {% else %}
+        <a class="nav-link" href="{% url 'login' %}">Join the hub</a>
+        {% endif %}
+      </button>
     </div>
   </div>
 
