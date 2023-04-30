@@ -7,8 +7,8 @@
   <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/assignment-icon.png' %}"
        style="width:8%;">
 
-  <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 12px;">
-    <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE ASSIGNMENTS</h5>
+  <div class="col-sm-8 col-md-8 col-lg-8 availableCourses">
+    <h5 class="title">COURSE ASSIGNMENTS</h5>
   </div>
 </div>
 
@@ -78,76 +78,78 @@
   {% if assignments|length == 0 %}
           <h2 style="text-align: center;">There are no assignments yet!</h2>
   {% else %}
-  <table class="table table-bordered">
-      <thead class="table-dark">
-        <tr>
-          {% if user.is_student %}
-            <th scope="col">#</th>
-            <th scope="col">Assignment Name</th>
-            <th scope="col">Uploaded By</th>
-            <th scope="col">Upload Date</th>
-            <th scope="col">Assignment</th>
-            <th scope="col">Status</th>
-          {% else %}
-            <th scope="col">#</th>
-            <th scope="col">Assignment Name</th>
-            <th scope="col">Upload Date</th>
-            <th scope="col">Assignment</th>
-            <th scope="col">Submissions</th>
-            <th scope="col"></th>
-          {% endif %}
-        </tr>
-      </thead>
+  <div class="table-responsive"> 
+    <table class="table table-bordered" style="min-width: 600px;">
+        <thead class="table-dark">
+          <tr>
+            {% if user.is_student %}
+              <th scope="col">#</th>
+              <th scope="col">Assignment Name</th>
+              <th scope="col">Uploaded By</th>
+              <th scope="col">Upload Date</th>
+              <th scope="col">Assignment</th>
+              <th scope="col">Status</th>
+            {% else %}
+              <th scope="col">#</th>
+              <th scope="col">Assignment Name</th>
+              <th scope="col">Upload Date</th>
+              <th scope="col">Assignment</th>
+              <th scope="col">Submissions</th>
+              <th scope="col"></th>
+            {% endif %}
+          </tr>
+        </thead>
 
-      <tbody>
-      
-            {% for assignment in assignments %}
-            <tr>
-              {% if user.is_student %}
-                <td scope="row">{{ forloop.counter }}</td>
-                <td>{{assignment.name}}</td>
-                <td>{{assignment.tutor.user.username}}</td>
-                <td>{{assignment.created_at}}</td>
-                <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
-              {% else %}
-                <td scope="row">{{ forloop.counter }}</td>
-                <td>{{assignment.name}}</td>
-                <td>{{assignment.created_at}}</td>
-                <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
-              {% endif %}
-
-              {% if user.is_student %}
-                {% getSubmittedAssignments user as submissions%}
-                {% if assignment in submissions %}
-                <td>
-                  <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
-                    <button style="all: unset; cursor: pointer;" name="submitted_button" 
-                            type="submit" value="Submitted">
-                          <a class="hoverText" style="text-decoration: none; color: black;">Submitted
-                          </a>
-                    </button>
-                  </form>
-                </td>
+        <tbody>
+        
+              {% for assignment in assignments %}
+              <tr>
+                {% if user.is_student %}
+                  <td scope="row">{{ forloop.counter }}</td>
+                  <td>{{assignment.name}}</td>
+                  <td>{{assignment.tutor.user.username}}</td>
+                  <td>{{assignment.created_at}}</td>
+                  <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
                 {% else %}
-                  <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
+                  <td scope="row">{{ forloop.counter }}</td>
+                  <td>{{assignment.name}}</td>
+                  <td>{{assignment.created_at}}</td>
+                  <td><a href="{{ assignment.file_assignment.url }}" class="btn btn-primary" target="_blank">Download</a></td>
                 {% endif %}
 
-              {% else %}
-                  <td><a href="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" class="btn btn-primary">View</a></td>
+                {% if user.is_student %}
+                  {% getSubmittedAssignments user as submissions%}
+                  {% if assignment in submissions %}
                   <td>
-                    <form action="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" method="POST">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-danger" name="assignment_delete_button">Delete</button>
+                    <form action="{% url 'submit_assignment' course_id=course.pk assignment_id=assignment.pk %}" method="GET">
+                      <button style="all: unset; cursor: pointer;" name="submitted_button" 
+                              type="submit" value="Submitted">
+                            <a class="hoverText" style="text-decoration: none; color: black;">Submitted
+                            </a>
+                      </button>
                     </form>
                   </td>
-              {% endif %}
-            </tr>
+                  {% else %}
+                    <td><a href="{% url 'assignments' course_id=course.pk %}" class="btn btn-primary">Submit</a></td>
+                  {% endif %}
 
-            {% endfor%}
+                {% else %}
+                    <td><a href="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" class="btn btn-primary">View</a></td>
+                    <td>
+                      <form action="{% url 'view_submissions' course_id=course.pk assignment_id=assignment.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" name="assignment_delete_button">Delete</button>
+                      </form>
+                    </td>
+                {% endif %}
+              </tr>
 
-      </tbody>
+              {% endfor%}
 
-  </table>
+        </tbody>
+
+    </table>
+  </div>
   {% endif %}
   {% endif %}
 </div>

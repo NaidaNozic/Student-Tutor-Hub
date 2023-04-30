@@ -2,16 +2,67 @@
 
 {% block headerContent %}
 {% load static %}
-<!-- Header Start --> 
+<!-- Header Start -->    
 <style>
+
   body{
-  overflow-x: hidden;
+    overflow-x: hidden;
+  } 
+
+#studentServices, #tutorServices{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2%;
+  height: fit-content;
 }
-</style>     
+
+.left-div {
+  flex: 1;
+  margin-top: 2%;
+}
+
+.right-div {
+  flex: 1;
+  margin-top: 2%;
+}
+
+#courses > .card{
+  flex: 1;
+  margin: 3%;
+}
+
+.centerContent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .left-div, .right-div {
+    flex: none;
+    width: 100%;
+    margin-top: 6%;
+  }
+
+  #courses > .card{
+    flex: none;
+    width: 100%;
+    margin: 3%;
+  }
+
+  #logoHome{
+    margin: 2%;
+  }
+}
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
-    <a class="navbar-brand" href="#">
+    <a id="logoHome" href="{% url 'home' %}">
       <img src="{% static 'img/logo.png' %}" style="border-radius: 25%;" alt="..." height="50px">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,9 +126,10 @@
     <h2>Our Services</h2>
   </div>
 
-  <div id="studentServices" style="position: relative; height: 400px;">
+  <div id="studentServices">
 
-    <div id="s1" style="position:absolute; width: 60%; top:60px; left:90px">
+    <div id="s1" class="left-div centerContent">
+      <div>
       <div style="margin-bottom: 5%;">
         <i class="fa-solid fa-laptop fa-2xl" style="color: #e91e63;margin: 3%; display: inline;"></i>
         <h4 style="display: inline; letter-spacing: 2px;">What we offer to our students</h4>
@@ -96,21 +148,23 @@
         <p style="display: inline;">Submit assignment and receive direct feedback from instructors</p>
       </div>
     </div>
+    </div>
 
-    <div id="s2" style="position: absolute; right:0px; top:60px">
-      <img src="{% static 'img/e-learning.png' %}" alt="e-learning" style="width: 50%; margin-bottom: 60px;">
+    <div id="s2" class="right-div centerContent">
+      <img src="{% static 'img/e-learning.png' %}" alt="e-learning" style="max-width: 300px;">
     </div>
 
   </div>
 
-  <div id="tutorServices" style="position: relative; height: 400px;">
+  <div id="tutorServices" style="margin-bottom: 2%;">
 
-    <div id="t1" style="position: absolute; left:200px; top:60px">
-      <img src="{% static 'img/e-learning1.png' %}" alt="e-learning1" style="width: 50%; margin-bottom: 60px;">
+    <div id="t1" class="left-div centerContent">
+      <img src="{% static 'img/e-learning1.png' %}" alt="e-learning1" style="max-width: 250px;">
     </div>
 
-    <div id="t2" style="position:absolute; width: 50%; top:90px; right:0px">
-      <div style="margin-bottom: 5%;">
+    <div id="t2" class="right-div centerContent">
+      <div>
+      <div style="margin-bottom: 5%; min-width: 480px;">
         <i class="fa-solid fa-laptop fa-2xl" style="color: #e91e63;margin: 3%; display: inline;"></i>
         <h4 style="display: inline; letter-spacing: 2px;">What we offer to our instructors</h4>
       </div>
@@ -125,6 +179,7 @@
         <p style="display: inline;">Upload and grade assignments</p>
       </div>
     </div>
+    </div>
   
   </div>
 
@@ -132,11 +187,10 @@
     <h2>Our most popular courses</h2>
   </div>
 
-  <div id="courses" class="row" style="height: 500px; display: flex; justify-content: center; 
+  <div id="courses" class="row" style="height: fit-content; display: flex; justify-content: center;
                                        background-color: #00024f;">
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; height: 100%;
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px; height: 370px;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
           <img class="card-img-top" src="media/courses_images/maths.jpg" alt="Card image" style="width: 100%;padding: 10px;">
           <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
@@ -144,10 +198,8 @@
             <p class="card-text">Introduction to mathematics,Functions,equations and inequations,absolute values, Trigonometry</p>
           </div>
       </div>
-    </div>
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 100%;
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 370px;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
           <img class="card-img-top" src="media/courses_images/default.jpg" alt="Card image" style="width: 100%;padding: 10px;">
           <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
@@ -157,10 +209,8 @@
             Topics: Strings, Functions, Matrix, Classes, Structures</p>
           </div>
       </div>
-    </div>
 
-    <div class="cols-sm-6 col-md-4 col-lg-3" style="margin-top: 80px;  margin-bottom: 80px;">
-      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 100%;
+      <div class="card" style="max-width: 300px; min-width: 100px; border-radius: 0px;height: 370px;
                                display: inline-block; background-color: #f0ebeb; border-radius: 20px;">
           <img class="card-img-top" src="media/courses_images/mathematic.jpg" alt="Card image" style="width: 100%;padding: 10px;">
           <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
@@ -169,7 +219,7 @@
                definitions of objects such as lines, planes and rotations.</p>
           </div>
       </div>
-    </div>
+
 
   </div>
 

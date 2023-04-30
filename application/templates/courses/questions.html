@@ -8,8 +8,8 @@
   <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/question.png' %}"
        style="width:6%;">
 
-  <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 5px;">
-    <h5 style="margin-left: 2%; letter-spacing: 2px;">Q&A SECTION FOR STUDENTS</h5>
+  <div class="col-sm-8 col-md-8 col-lg-8 availableCourses">
+    <h5 class="title">Q&A SECTION FOR STUDENTS</h5>
   </div>
 </div>
 
@@ -21,7 +21,7 @@
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
 <!--Add Question-->
-<div id="addQuestions" class="containerWithBorder" style="min-width: 500px;">
+<div id="addQuestions" class="containerWithBorder" style="min-width: 475px;">
   <div class="row" style="margin-bottom: 5px; height: fit-content;">
     <!--<i class="fa-solid fa-circle-user fa-3x" style="margin: 5px;"></i>-->
     <div class="form-outline w-100" style="position: relative;">
@@ -68,7 +68,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 {% if questions %}
 {% for question in questions %}
 
-<div class="container containerWithBorder" style="padding: 20px;">
+<div class="container containerWithBorder" style="padding: 15px; min-width: 475px;">
 
   <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
@@ -112,6 +112,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
               style="width: fit-content; bottom: 0; right: 0; position: absolute; margin: 15px 15px 0px 15px;">
       Reply</button>
     </div>
+
   </div>
   <!--Answers-->
   {% load tag %}

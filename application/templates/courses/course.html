@@ -23,11 +23,59 @@
   .hoverMeni:hover{
     background-color: rgb(175, 173, 173) !important;
   }
+  #miniMeni{
+    margin-left: 50px;
+  }
+  #line{
+    width: 200px; 
+    margin-left: 10px; 
+    margin-right: auto; 
+    margin-top: 0px; 
+    margin-bottom: 0px;
+  }
+  #right-gutter{
+      width: 80%;
+      height: 100vh; 
+      overflow: scroll;
+    }
+    #course_meni{
+      display: none;
+    }
+  @media screen and (min-width: 900px) and (max-width: 1400px) {
+    #miniMeni{
+    margin-left: 20px;
+  }
+
+  #line{
+    width: 150px; 
+    margin-left: 20px; 
+  }
+  .courseTitle{
+      font-size: small;
+    }
+  }
+
+  @media screen and (max-width:899px){
+    #left-gutter{
+      display: none;
+    }
+    #right-gutter{
+      width: 100%;
+    }
+    #course_meni{
+      display: block;
+    }
+    .courseTitle{
+      font-size: small;
+    }
+  }
 </style>
 
 <div class="row no-gutters">
 
-  <div class="col-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
+  {% include 'courses/course_meni.html'%}
+
+  <div id="left-gutter" class="col-sm-1 col-md-2 col-lg-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
 
     <!--Course Image-->
     <div class="card" style="width: 70%; margin-top: 15%; 
@@ -35,41 +83,43 @@
       <img src="{{course.image.url}}" class="card-img-top" style="border-radius: 0%;" alt="Cover">
 
         <div class="card-body" style="border: 1px solid gray; padding: 10px 0px 10px 0px;">
-          <h4 class="card-title courseDetails" 
+          <h4 class="card-title courseDetails courseTitle" 
               style="text-align: center; color: black; letter-spacing: 2px; font-weight: lighter;">{{course.name}}</h4>
         </div>
     </div>
     <!--End Course Image-->
 
     <div class="nav flex-column" style="margin-top: 5%; width: 100%;">
-      <a class="nav-link hoverMeni" href="{% url 'overview' course_id=course.pk %}" style="color: black;">
-        <span style="margin-right: 5px; margin-left: 50px;"></span>Overview
-      </a>
-      <hr style="width: 200px; margin-left: 60px; margin-right: auto; margin-top: 0px; margin-bottom: 0px;">
-      {% if user.is_student %}
-      <a class="nav-link hoverMeni" href="{% url 'course' course_id=course.pk %}" style="color: black;">
-        <i class="fa-solid fa-house" style="margin-right: 5px; margin-left: 50px;"></i>Posts
-      </a>
-      {% else %}
-      <a class="nav-link hoverMeni" href="{% url 'tutor_course' course_id=course.pk %}" style="color: black;">
-        <i class="fa-solid fa-house" style="margin-right: 5px; margin-left: 50px;"></i>Posts
-      </a>
-      {% endif %}
-      <a class="nav-link hoverMeni" href="{% url 'view_questions_tutor' course_id=course.pk %}" style="color: black;">
-        <i class="fa-solid fa-question" style="margin-right: 5px; margin-left: 50px;"></i>Questions
-      </a>
-      <a class="nav-link hoverMeni" href="{% url 'assignment_overview' course_id=course.pk %}" style="color: black;">
-        <i class="fa-solid fa-list-check" style="margin-right: 5px; margin-left: 50px;"></i>Assignments
-      </a>
-      {% if user.is_tutor %}
-      <a class="nav-link hoverMeni" href="{% url 'view_students' course_id=course.pk %}" style="color: black;">
-        <i class="fa-solid fa-users" style="margin-right: 5px; margin-left: 50px;"></i>Students
-      </a>
-      {% endif %}
+      <div id="miniMeni">
+        <a class="nav-link hoverMeni" href="{% url 'overview' course_id=course.pk %}" style="color: black;">
+          <span style="margin-right: 5px;"></span>Overview
+        </a>
+        <hr id="line">
+        {% if user.is_student %}
+        <a class="nav-link hoverMeni" href="{% url 'course' course_id=course.pk %}" style="color: black;">
+          <i class="fa-solid fa-house" style="margin-right: 5px;"></i>Posts
+        </a>
+        {% else %}
+        <a class="nav-link hoverMeni" href="{% url 'tutor_course' course_id=course.pk %}" style="color: black;">
+          <i class="fa-solid fa-house" style="margin-right: 5px;"></i>Posts
+        </a>
+        {% endif %}
+        <a class="nav-link hoverMeni" href="{% url 'view_questions_tutor' course_id=course.pk %}" style="color: black;">
+          <i class="fa-solid fa-question" style="margin-right: 5px;"></i>Questions
+        </a>
+        <a class="nav-link hoverMeni" href="{% url 'assignment_overview' course_id=course.pk %}" style="color: black;">
+          <i class="fa-solid fa-list-check" style="margin-right: 5px;"></i>Assignments
+        </a>
+        {% if user.is_tutor %}
+        <a class="nav-link hoverMeni" href="{% url 'view_students' course_id=course.pk %}" style="color: black;">
+          <i class="fa-solid fa-users" style="margin-right: 5px;"></i>Students
+        </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 
-  <div class="col-10 no-gutters" style="width: 80%; height: 100vh; overflow: scroll;">
+  <div id="right-gutter" class="col-sm-11 col-md-10 col-lg-10 no-gutters">
     {% block courseContent%}
       {% include 'courses/posts.html' with notices=notices %}
     {% endblock %}

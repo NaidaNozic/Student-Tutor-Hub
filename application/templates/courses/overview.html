@@ -8,14 +8,14 @@
     <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/information.png' %}"
          style="width:6%;" title="info">
   
-    <div class="col-sm-6 col-md-6 col-lg-6" style="display: inline-block; position:absolute; bottom: 5px;">
-      <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE OVERVIEW</h5>
+    <div class="col-sm-6 col-md-6 col-lg-6 availableCourses">
+      <h5 class="title">COURSE OVERVIEW</h5>
     </div>
 
     {% if user.is_student %}
         <form action="{% url 'overview' course_id=course.pk %}" method="POST">
             {% csrf_token %}
-            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning" 
+            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning dugmeStatusKurs" 
                     style="position: absolute; right: 5px; bottom: 5px; border: 1px solid black; width: fit-content;"
                     name="withdraw_button" value="{{user.pk}}" type="submit">Withdraw from course</button>
         </form>
@@ -32,7 +32,7 @@
     <div class="container" style="width: 80%; margin-top: 3%;">
 
         <div class="row">
-            <div class="col-7">
+            <div class="col-sm-12 col-md-7 col-lg-7">
                 <h4 style="margin-left: 4%;">About this course</h4>
                 <hr>
                 <div style="background-color: white; border-radius: 15px; padding: 25px; border: 2px solid lightgray;">
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="col-5" style="height: 200px;">
+            <div id="keyInfo" class="col-sm-12 col-md-5 col-lg-5">
 
                 <div style="display: flex; justify-content: center;">
                     <h5 style="background-color: rgb(206 50 50); color: white; padding: 10px;

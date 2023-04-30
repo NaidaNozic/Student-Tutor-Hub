@@ -1,0 +1,36 @@
+<nav id="course_meni" class="navbar navbar-expand-lg static-top">
+    <div class="container">
+        <div id="dugmeMeni" style="margin-left: auto;">
+            <button id="mButton" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" 
+                    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'overview' course_id=course.pk %}">Overview</a>
+          </li>
+          <li class="nav-item">
+            {% if user.is_student %}
+            <a class="nav-link" href="{% url 'course' course_id=course.pk %}">Posts</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'tutor_course' course_id=course.pk %}">Posts</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_questions_tutor' course_id=course.pk %}">Questions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'assignment_overview' course_id=course.pk %}">Assignments</a>
+          </li>
+          {% if user.is_tutor %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_students' course_id=course.pk %}">Students</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+</nav>

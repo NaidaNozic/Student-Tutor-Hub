@@ -16,52 +16,54 @@
 {% if submissions %}
 
     <div class="positionCenter" style="margin-top: 5%;">
-        <table class="table table-sm table-bordered" style="font-size:15px;">
-            <thead class="table-dark">
-                <tr>
-                <th scope="col">#</th>
-                <th scope="col">Assignment Name</th>
-                <th scope="col">Submission</th>
-                <th scope="col">Student</th>
-                <th scope="col">Upload Date</th>
-                <th scope="col">Grade</th>
-                <th scope="col">Input grade</th>
-                </tr>
-            </thead>
-        
-            <tbody>
-            
-                {% for submission in submissions %}
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered" style="font-size:15px; min-width: 600px;">
+                <thead class="table-dark">
                     <tr>
-                        <td scope="row">{{ forloop.counter }}</td>
-                        <td>{{submission.assignment.name}}</td>
-                        <td><a class="hoverTextRed" href="{{ submission.file_submission.url }}" style="text-decoration: none; color: darkblue;"
-                            target="_blank">Download</a></td>
-                        <td>{{submission.student.user.username}}</td>
-                        <td>{{submission.created_at}}</td>
-
-                        {% if submission.grade %}
-                        <td>{{submission.grade}}</td>
-                        {% else %}
-                        <td>Not graded</td>
-                        {% endif %}
-
-                        <td>
-                            <form enctype="multipart/form-data"
-                                action="{% url 'view_submissions' course_id=course.pk assignment_id=submission.assignment.pk submission_id=submission.pk %}" method="POST">
-                                {% csrf_token %}
-                                <p style="font-size: large;"> <label >{{ submission_form.grade.label_tag }}</label> <br></p>
-                                <p>{{ submission_form.grade }}</p>
-                                <button type="submit" class="btn btn-primary btn-sm" name="grade_button">Submit</button>
-                            </form>
-                        </td>
-
+                    <th scope="col">#</th>
+                    <th scope="col">Assignment Name</th>
+                    <th scope="col">Submission</th>
+                    <th scope="col">Student</th>
+                    <th scope="col">Upload Date</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Input grade</th>
                     </tr>
-                {% endfor%}
+                </thead>
+            
+                <tbody>
+                
+                    {% for submission in submissions %}
+                        <tr>
+                            <td scope="row">{{ forloop.counter }}</td>
+                            <td>{{submission.assignment.name}}</td>
+                            <td><a class="hoverTextRed" href="{{ submission.file_submission.url }}" style="text-decoration: none; color: darkblue;"
+                                target="_blank">Download</a></td>
+                            <td>{{submission.student.user.username}}</td>
+                            <td>{{submission.created_at}}</td>
+
+                            {% if submission.grade %}
+                            <td>{{submission.grade}}</td>
+                            {% else %}
+                            <td>Not graded</td>
+                            {% endif %}
+
+                            <td>
+                                <form enctype="multipart/form-data"
+                                    action="{% url 'view_submissions' course_id=course.pk assignment_id=submission.assignment.pk submission_id=submission.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <p style="font-size: large;"> <label >{{ submission_form.grade.label_tag }}</label> <br></p>
+                                    <p>{{ submission_form.grade }}</p>
+                                    <button type="submit" class="btn btn-primary btn-sm" name="grade_button">Submit</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    {% endfor%}
+            
+                </tbody>
         
-            </tbody>
-    
-        </table>
+            </table>
+        </div>
     </div>
 {% else %}
     <div class="card" style="border-radius: 0; padding: 10px; margin-top: 2%; width: 60%; margin-left: auto; margin-right: auto;">

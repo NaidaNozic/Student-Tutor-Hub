@@ -1,5 +1,9 @@
 <!--List of Notices and Materials-->
 {% load static %}
+<style>
+
+</style>
+
 <div id="posts" class="container" style="width: 100%; 
 height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
@@ -7,8 +11,8 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
       <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/materials.png' %}"
            style="width:7%;">
 
-      <div class="col-sm-8 col-md-8 col-lg-8" style="position:absolute; bottom: 12px; display: inline-block;">
-        <h5 style="margin-left: 2%; letter-spacing: 2px;">POSTS AND MATERIALS FOR THE COURSE</h5>
+      <div class="col-sm-8 col-md-8 col-lg-8 availableCourses">
+        <h5 class="title">POSTS AND MATERIALS FOR THE COURSE</h5>
       </div>
     </div>
 
@@ -17,7 +21,7 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
  <!--Post Form-->
  {% if user.is_tutor %}
- <div class="containerWithBorder" style="min-width: 500px;">
+ <div class="containerWithBorder" style="min-width: 475px;">
    <div class="row" style="margin-bottom: 5px; height: fit-content;">
      <div class="form-outline w-100" style="position: relative;">
 
@@ -65,27 +69,21 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
 
   {% for post in notices %}
 
-  <div class="container containerWithBorder" style="padding: 15px; min-width: 500px;">
- 
-    <div class="row" style="height: fit-content; padding: 5px; min-width: 500px;">
+  <div class="container containerWithBorder" style="padding: 15px; min-width: 475px;">
+    <!--Novi dizajn Posta-->
+    <div class="row" style="margin-bottom: 5px; height: fit-content; position: relative;">
 
-    <div class="cols-sm-6 col-md-6 col-lg-6" style=" height: fit-content;">
-      <div>
-          <img src="{% static 'img/tutor.png' %}" style="height: 45px; display: inline-block; position: relative; top: -15px;">
-
-          <div style="display: inline-block;">
-            <p style="margin: 5px; text-align: left; font-weight: bold;">{{ post.name }}<br>
-            <span style="font-size: small; text-align: left; color: gray; font-weight:lighter">{{ post.tutor.user.username }}</span></p>
-          </div>
-        </div>
-    </div>
-
-      <div class="cols-sm-6 col-md-6 col-lg-6" style="height: fit-content; position: relative;">
-        <p style="text-align: right;margin: 5px 25px 5px 5px; font-size: small;">{{ post.created_at }}</p>
-        {% if user.is_tutor %}
+      <div style="width: auto; height: fit-content;">
+        <img src="{% static 'img/tutor.png' %}" style="height: 45px; display: inline-block; position: relative; top: 5px">
+      </div>
+      <div style=" height: fit-content; padding: 0;width:auto;display:inline-block">
+        <p style="margin: 5px; text-align: left;">{{ post.tutor.user.username}}<br>
+        <span style="font-size: small; text-align: left; color: gray;">{{ post.created_at }}</span></p>
+      </div>
+      <!--Delete-->
+      {% if user.is_tutor %}
         {% if user.username == post.tutor.user.username %}
-        <!--Delete-->
-        <div style="position: absolute; right:10px; top: 3px;">
+        <div style="position: absolute; right:10px; top: 5px; width: auto;">
           <ul style="list-style-type: none;">
             <li class="nav-item dropdown">
               <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -102,37 +100,37 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
             </li>
           </ul>
         </div>
+        {% endif %}
+        {% endif %}
         <!--End Delete-->
-        {% endif %}
-        {% endif %}
+      <div style="text-align: justify; margin-top: 25px; margin-bottom: 5px;">
+        <h4>{{ post.name }}</h4>
       </div>
-    </div>
-
-    <div class="row" style="padding: 5px 5px 0px 5px;">
       <div style="height: fit-content;">
-        <p style="word-wrap: break-word; text-align: justify;">{{ post.text }}</p>
+        <p class="breakText">{{ post.text }}</p>
+      </div>
+      
+      {% load tag %}
+      <div class="row" style="padding: 5px 5px 0px 5px;">
+
+          {% getMaterials post as materials %}
+          {% for material in materials %}
+
+          <div class="cols-sm-10 col-md-10 col-lg-10" 
+              style="height: fit-content; position: relative; min-width: 300px; max-width: fit-content;
+                padding: 0px; margin-left: 15px; border: 1px solid #8080807d; border-radius: 5px;">
+
+            <div style="height: fit-content; border-radius: 5px; display: inline-block; margin: 10px;">
+              <img src="{% static 'img/attachment.png' %}" style="height: 45px;">
+            </div>
+            <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.filename }}</a>
+          </div>
+
+          {% endfor %}
+
       </div>
     </div>
-
-    {% load tag %}
-    <div class="row" style="padding: 5px 5px 0px 5px;">
-
-        {% getMaterials post as materials %}
-        {% for material in materials %}
-
-        <div class="cols-sm-10 col-md-10 col-lg-10" 
-             style="height: fit-content; position: relative; min-width: 300px; max-width: fit-content;
-               padding: 0px; margin-left: 15px; border: 1px solid #8080807d; border-radius: 5px;">
-
-          <div style="height: fit-content; border-radius: 5px; display: inline-block; margin: 10px;">
-            <img src="{% static 'img/attachment.png' %}" style="height: 45px;">
-          </div>
-          <a href="{{ material.material.url }}" class="verticalCenter" style="font-size:small">{{ material.filename }}</a>
-        </div>
-
-        {% endfor %}
-
-    </div>
+    <!--Kraj dizajna-->
   </div>
 
   {% endfor %}

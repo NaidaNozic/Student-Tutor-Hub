@@ -1,6 +1,44 @@
 {% extends 'courses/dashboard.html' %}
 
 {% block content_courses %}
+
+<style>
+    .profileBack{
+        background-color: white; 
+        border-radius: 15px; 
+        padding: 25px; 
+        border: 2px solid lightgray;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+        width:70%; 
+        margin-top: 5%;
+        margin-bottom: 5%; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    .margina{
+        margin-left: 30%;
+    }
+    @media screen and (max-width:1090px){
+        #leftside{
+        border-right: 0px;
+        }
+    }
+    @media screen and (max-width:1400px){
+        .profileBack{
+            width:90%;
+        }
+    }
+    @media screen and (max-width:900px){
+        .profileBack{
+            width:90%;
+        }
+        .margina{
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+</style>
+
 {% if messages %}
     {% for message in messages %}
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -10,14 +48,12 @@
     {% endfor %}
 {% endif %}
 {% load static %}
-<div class="row no-gutters" style="background-color: white; border-radius: 15px; padding: 25px; border: 2px solid lightgray;
-                                   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; width:70%; margin-top: 5%;
-                                   margin-bottom: 5%; margin-left: auto; margin-right: auto;">
+<div class="row no-gutters profileBack">
 
-    <div class="col no-gutters">
+    <div class="col-sm-12 col-md-12 col-lg-6 no-gutters lefty">
         <div id="leftside">
 
-            <div style="margin-top:5%; margin-left: 30%; width: 280px;">
+            <div class="margina" style="margin-top:5%;width: 280px;">
                 <div class="horizontalCenter" style="width: 100%;">
                     <img src="{% static 'img/user.png' %}" style="width: 120px;" alt="user">
                 </div>
@@ -25,7 +61,7 @@
                 <hr style="background-color: lightgray; opacity: 1;">
             </div>
 
-            <div style="margin-left: 30%; width: 280px; margin-top: 20px;">
+            <div class="margina" style="width: 280px; margin-top: 20px;">
                 <p style="font-weight: bold; margin-left: 10px;">About</p>
                 <div style="background-color: lightgray; border-radius: 20px; height: fit-content;">
 
@@ -70,7 +106,7 @@
         </div>
     </div>
 
-    <div class="col no-gutters">
+    <div class="col-sm-12 col-md-12 col-lg-6 no-gutters righty">
         <div id="rightside">
             <div style="margin-top:10%; margin-left: 5%;">
                 <h4>Edit profile</h4>

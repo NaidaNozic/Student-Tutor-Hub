@@ -21,11 +21,53 @@
   .hoverMeni:hover{
     background-color: rgb(175, 173, 173) !important;
   }
+  #miniMeni{
+    margin-left: 50px;
+  }
+  #line{
+    width: 200px; 
+    margin-left: 10px; 
+    margin-right: auto; 
+    margin-top: 0px; 
+    margin-bottom: 0px;
+  }
+  #right-gutter{
+      width: 80%;
+      height: 100vh; 
+      overflow: scroll;
+    }
+    #course_meni{
+      display: none;
+    }
+  @media screen and (min-width: 900px) and (max-width: 1400px) {
+    #miniMeni{
+    margin-left: 20px;
+  }
+
+  #line{
+    width: 150px; 
+    margin-left: 20px; 
+  }
+  }
+
+  @media screen and (max-width:899px){
+    #left-gutter{
+      display: none;
+    }
+    #right-gutter{
+      width: 100%;
+    }
+    #course_meni{
+      display: block;
+    }
+  }
 </style>
 
 <div class="row no-gutters">
 
-  <div class="col-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
+  {% include 'courses/course_meni.html'%}
+
+  <div id="left-gutter" class="col-sm-1 col-md-2 col-lg-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
 
     <!--Course Image-->
     <div class="card" style="width: 70%; margin-top: 15%; 
@@ -43,7 +85,7 @@
       <p class="nav-link" style="color: black; margin-bottom: 0px;">
         <span style="margin-right: 5px; margin-left: 50px;"></span>Overview
       </p>
-      <hr style="width: 200px; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;">
+      <hr id="line">
       {% if user.is_student %}
       <a class="nav-link hoverMeni" href="#" style="color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <i class="fa-solid fa-house" style="margin-right: 5px; margin-left: 50px;"></i>Posts
@@ -63,36 +105,35 @@
   </div>
 
   <!--OVERVIEW SECTION-->
-  <div class="col-10 no-gutters" style="width: 80%; height: 100vh; overflow: scroll;">
+  <div id="right-gutter" class="col-sm-11 col-md-10 col-lg-10 no-gutters">
 
     <div style="margin-left: auto; margin-right: auto; width:75%; margin-top: 5%; position: relative; margin-bottom: 5px;">
         <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/information.png' %}"
             style="width:6%;" title="info">
     
-        <div class="col-sm-6 col-md-6 col-lg-6" style="display: inline-block; position:absolute; bottom: 5px;">
-        <h5 style="margin-left: 2%; letter-spacing: 2px;">COURSE OVERVIEW</h5>
+        <div class="col-sm-6 col-md-6 col-lg-6 availableCourses">
+        <h5 class="title">COURSE OVERVIEW</h5>
         </div>
 
         {% if user.is_student %}
         <form action="{% url 'course' course_id=course.pk %}" method="POST">
             {% csrf_token %}
-            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning" 
+            <button class="col-sm-2 col-md-2 col-lg-2 btn btn-warning dugmeStatusKurs" 
                     style="position: absolute; right: 5px; bottom: 5px; border: 1px solid black;"
                     name="enroll_button" type="submit">Enroll me</button>
         </form>
         {% endif %}
     </div>
-  
+
     <hr style="width: 80%; margin-left: auto; margin-right: auto; background-color: black;
              opacity: 1; margin-top: 0; margin-bottom: 4%; height: 2px;">
-
 
     <h2 style="color: rgb(81 144 181); display: flex; justify-content: center;">{{course.name}}</h2>
 
     <div class="container" style="width: 80%; margin-top: 3%;">
 
         <div class="row">
-            <div class="col-7">
+            <div class="col-sm-12 col-md-7 col-lg-7">
                 <h4 style="margin-left: 4%;">About this course</h4>
                 <hr>
                 <div style="background-color: white; border-radius: 15px; padding: 25px; border: 2px solid lightgray;">
@@ -100,7 +141,7 @@
                 </div>
             </div>
 
-            <div class="col-5" style="height: 200px;">
+            <div id="keyInfo" class="col-sm-12 col-md-5 col-lg-5">
 
                 <div style="display: flex; justify-content: center;">
                     <h5 style="background-color: rgb(206 50 50); color: white; padding: 10px;

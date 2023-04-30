@@ -1,10 +1,71 @@
 .loginBox{
   margin: auto;
-  width: 40%;
+  width: 45%;
   border: 2px solid lightgray;
   padding: 10px;
   margin-top:120px;
 }
+
+.deleteSubmittedButton{
+  display: none;
+}
+
+@media screen and (max-width: 750px) {
+  .loginBox{
+    width: 80%;
+  }
+}
+
+/*All courses page + naslovi*/
+.availableCourses{
+  position:absolute;
+  bottom: 10px; 
+  display: inline-block;
+}
+
+.title{
+  margin-left: 2%; 
+  letter-spacing: 2px; 
+}
+
+@media screen and (max-width: 850px) {
+.availableCourses{
+  position:absolute;
+  bottom: 0; 
+  display: inline-block;
+  width: 300px
+}
+.title{
+  font-size: medium;
+  margin-left: 2%; 
+  letter-spacing: 2px; 
+}
+.deleteSubmittedButton{
+  display: block;
+  height: 50px; 
+}
+}
+
+/*All courses end*/
+
+/*course_meni*/
+@media screen and (max-width: 580px){
+  #dugmeMeni{
+      padding-right: 2.5%
+  }
+}
+/*course_meni end*/
+
+/*Button: enroll and withdraw*/
+@media screen and (max-width: 786px) {
+  .dugmeStatusKurs{
+  font-size: small;
+  }
+  #keyInfo{
+      margin-top: 10%;
+  }
+}
+/*Button: enroll and withdraw END*/
 
 .coursesBox{
   margin: auto;
@@ -135,3 +196,10 @@
   margin-right: auto;
   width: 80%;
 }
+
+
+
+
+
+
+

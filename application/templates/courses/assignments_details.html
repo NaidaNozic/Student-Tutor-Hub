@@ -7,8 +7,8 @@
   <img class="col-sm-4 col-md-4 col-lg-4" src="{% static 'img/submitted.png' %}"
        style="width:8%;">
 
-  <div class="col-sm-8 col-md-8 col-lg-8" style="display: inline-block; position:absolute; bottom: 5px;">
-    <h5 style="margin-left: 4%; letter-spacing: 2px;">SUBMITTED ASSIGNMENTS</h5>
+  <div class="col-sm-8 col-md-8 col-lg-8 availableCourses">
+    <h5 class="title">SUBMITTED ASSIGNMENTS</h5>
   </div>
 </div>
 
@@ -26,7 +26,8 @@
   </div>
 
   <div class="row positionCenter" style="margin-top: 2%; margin-bottom: 3%;">
-        <table class="table table-sm table-bordered" style="font-size:15px;">
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered" style="font-size:15px; min-width: 600px;">
             <thead class="table-dark">
               <tr>
                 <th scope="col">#</th>
@@ -78,8 +79,8 @@
       
             </tbody>
   
-        </table>
-
+      </table>
+    </div>
   </div>
 
 {% endif %}
