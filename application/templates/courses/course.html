@@ -15,9 +15,16 @@
 
 {% if course %}
 <style>
-  body{
+  @media screen and (min-width: 1000px) {
+    body{
     overflow-x: hidden;
     overflow-y: hidden;
+  }
+  }
+  @media screen and (max-width: 999px) {
+    body{
+    overflow-y: hidden;
+  }
   }
 
   .hoverMeni:hover{

@@ -13,9 +13,12 @@
 
 {% if course %}
 <style>
-  body{
+  
+  @media screen and (min-width: 1000px) {
+    body{
     overflow-x: hidden;
     overflow-y: hidden;
+  }
   }
 
   .hoverMeni:hover{
@@ -65,7 +68,7 @@
 
 <div class="row no-gutters">
 
-  {% include 'courses/course_meni.html'%}
+  {% include 'courses/enroll_course_meni.html'%}
 
   <div id="left-gutter" class="col-sm-1 col-md-2 col-lg-2 no-gutters" style="width: 20%; height: 100vh; background-color: white; padding: 0; border-right: 1px solid gray;">
 
