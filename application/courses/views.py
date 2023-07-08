@@ -78,9 +78,11 @@ def dashboard(request):
       tutor_courses=TutorCourse.objects.filter(tutor=newUser.Tutor)
       courses=[x.course for x in tutor_courses]
       return render(request,"courses/all_courses.html",{'all_courses':courses})
-   else:
+   elif newUser.is_student:
       courses = Course.objects.all()
-   return render(request,"courses/all_courses.html",{'all_courses':courses})
+      return render(request,"courses/all_courses.html",{'all_courses':courses})
+   else:
+      return redirect('login')
 
 @login_required
 def profile(request,pk):
@@ -116,7 +118,7 @@ def profile(request,pk):
             messages.success(request,"Update successful!")
             user_form = UserUpdateForm()
 
-            return render(request,'courses/profile.html',{'user_form':user_form})
+            return render(request,'courses/profile.html',{'user_form':user_form,'user':user})
 
          else:
             print(user_form.errors.as_data())
@@ -335,6 +337,7 @@ def view_tutor_course(request,course_id,post_id=None):
             m1.delete()
          notice.delete()
          notices = Notice.objects.filter(course=course)
+         messages.success(request,'Post successfully deleted!')
          return render(request,"courses/course.html",{'course':course,'notices':notices,
                                   'post_form':post_form,'material_form':material_form})
 
@@ -372,7 +375,7 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
             return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                   'question_form':question_form,'answer_form':answer_form})
 
-      elif 'reply_button' in request.POST:
+      elif request.POST.get('button') == 'reply_button':
          answer_form = AnswerForm(data = request.POST)
 
          if answer_form.is_valid():
@@ -381,14 +384,12 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
             answer.question = get_object_or_404(Question,pk=question_id)
             answer.save()
             answer_form = AnswerForm()
-            messages.success(request,'Answer successfully uploaded!')
-            return render(request,"courses/questions.html",{'course':course,'questions':questions,
-                                  'question_form':question_form,'answer_form':answer_form})
+            answers = Answer.objects.filter(question=answer.question)
+            return render(request, 'courses/answers.html', {'course':course,'question':answer.question,
+                                                                        'answers': answers}) 
          else:
             print(answer_form.errors)
-            messages.error(request,"Error posting the answer!")
-            return render(request,"courses/questions.html",{'course':course,'questions':questions,
-                                  'question_form':question_form,'answer_form':answer_form})
+            return render(request,"courses/error_form.html",{'answer_form':answer_form})
 
       elif 'delete_question_button' in request.POST:
          question = get_object_or_404(Question,pk=question_id)
@@ -402,8 +403,9 @@ def view_questions_tutor(request,course_id,question_id=None,answer_id=None):
          answer.delete()
          messages.success(request,'Answer successfully deleted!')
          return render(request,"courses/questions.html",{'course':course,'questions':questions,
-                                  'question_form':question_form,'answer_form':answer_form})
+                                  'question_form':question_form,'answer_form':answer_form}) 
 
+   print("msm ovo")
    return render(request,"courses/questions.html",{'course':course,'questions':questions,
                                                       'question_form':question_form,'answer_form':answer_form})
 

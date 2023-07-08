@@ -1,0 +1,7 @@
+{% if answer_form.text.errors %}
+            <ul class="errorlist">
+            {% for error in answer_form.text.errors %}
+                <li style="color: #ff0000;">{{ error }}</li>
+            {% endfor %}
+            </ul>
+{% endif %}

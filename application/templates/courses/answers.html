@@ -1,7 +1,6 @@
-
 <!--For loop answers-->
 {% for answer in answers %}
-<div class="d-flex flex-start" style="margin: 10px 0 10px 0; position: relative;">
+<div class="d-flex flex-start" id="answerBox2" style="margin: 10px 0 10px 0; position: relative;">
   <i class="fa-solid fa-circle-user fa-3x" style="margin-right: 15px;"></i>
   <div>
     <h6 class="fw-bold mb-1" style="color: #2596be;">{{ answer.user.username }}</h6>
@@ -24,7 +23,8 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk answer_id=answer.pk%}" method="POST">
+            <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk answer_id=answer.pk%}" 
+                  class="formaZaodg1" method="POST">
               {% csrf_token %}
               <button class="dropdown-item" name="delete_answer_button" type="submit" value="Delete">Delete</button>
             </form>

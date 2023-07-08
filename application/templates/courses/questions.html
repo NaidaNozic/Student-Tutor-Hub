@@ -131,27 +131,25 @@ height: fit-content; margin-top: 20px; margin-bottom: 20px;">
     <div id="divAnswers" class="closePopupS" >
       <div class="row">
 
-        <!--Answer Form-->
-          <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk %}" method="POST" style="margin-top: 5px;">
+          <!--Answer Form-->
+          <form action="{% url 'view_questions_tutor' course_id=course.pk question_id=question.pk %}" method="POST" class="formaZaodg" style="margin-top: 5px;">
             {% csrf_token %}
             <div class="form-group">
             <p> <label >{{ answer_form.text.label_tag }}</label> <br>  {{ answer_form.text }}</p>
+            <input type="hidden" name="button" value="reply_button">
             </div>
-            {% if answer_form.text.errors %}
-            <ul class="errorlist">
-              {% for error in answer_form.text.errors %}
-                  <li style="color: #ff0000;">{{ error }}</li>
-              {% endfor %}
-            </ul>
-            {% endif %}
+            
+            <div id="erroriUOdg">
+              {% include 'courses/error_form.html' with answer_form=answer_form %}
+            </div>
 
             <div class="float-end mt-2 pt-1">
               <button type="submit" class="btn btn-primary btn-sm" name="reply_button">Post the answer</button>
             </div>
           </form>
-        <!--End Answer Form-->
+          <!--End Answer Form-->
 
-          <div>
+          <div id="answersBox">
             {% include 'courses/answers.html' with answers=answers %}
           </div>
 
